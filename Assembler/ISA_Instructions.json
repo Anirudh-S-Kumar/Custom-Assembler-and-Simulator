@@ -1,0 +1,9 @@
+{
+    "add" : {
+        "opcode" : 10000,
+        "instruction" : "Addition",
+        "semantics" : "Performs reg3 = reg1 + reg2. If the computatio noverflows, then the overflow flag is set",
+        "type" : "a"
+    }
+
+}
