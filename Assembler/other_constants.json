@@ -1,0 +1,29 @@
+{
+    "terms" :{
+        "A" : 4,
+        "B" : 3
+    },
+
+    "no_of_registers" :{
+        "A" : 3,
+        "B" : 1
+    },
+
+    "unused_bits" : {
+        "A" : 2,
+        "B" : 0
+    },
+
+    "memory_bits" : {
+        "A" : 0,
+        "B" : 0,
+        "C" : 0,
+        "D" : 8
+    },
+
+    "register_addr" : {
+        "R0" : "000",
+        "R1" : "010"
+    }
+
+}
