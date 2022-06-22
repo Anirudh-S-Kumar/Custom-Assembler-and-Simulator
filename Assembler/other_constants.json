@@ -30,6 +30,12 @@
         "R0" : "000",
         "R1" : "010",
         "R2" : "011"
+    },
+
+    "type_structure" : {
+        "A" : ["opcode", "unused", "reg", "reg", "reg"],
+        "B" : ["opcode", "reg", "immediate"]
     }
+
 
 }

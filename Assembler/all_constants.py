@@ -22,6 +22,7 @@ with open("other_constants.json") as f:
     memory_bits = temp["memory_bits"]
     immediate_values = temp["immediate_values"]
     register_addr = temp["register_addr"]
+    type_structure = temp["type_structure"]
 
 # For testing
 def main():
