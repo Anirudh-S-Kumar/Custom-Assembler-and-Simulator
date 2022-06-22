@@ -20,6 +20,11 @@
         "C" : 0,
         "D" : 8
     },
+    
+    "immediate_values" :{
+        "A" : 0,
+        "B" : 8
+    },
 
     "register_addr" : {
         "R0" : "000",
