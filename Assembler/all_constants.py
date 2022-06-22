@@ -6,14 +6,14 @@ import pprint
 
 
 # Defining the dictionaries
-inst = terms = no_of_register = {}
+opcode = terms = no_of_register = {}
 unused_bits = memory_bits = {}
 immediate_values = register_addr = {}
 
 
 #Extracting data from them
 with open("ISA_Instructions.json") as f:
-    inst = json.load(f)
+    opcode = json.load(f)
 with open("other_constants.json") as f:
     temp = json.load(f)
     terms = temp["terms"]
