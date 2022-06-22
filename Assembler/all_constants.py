@@ -16,10 +16,16 @@ with open("ISA_Instructions.json") as f:
     inst = json.load(f)
 with open("other_constants.json") as f:
     temp = json.load(f)
+    terms = temp["terms"]
+    no_of_register = temp["no_of_registers"]
+    unused_bits = temp["unused_bits"]
+    memory_bits = temp["memory_bits"]
+    immediate_values = temp["immediate_values"]
+    register_addr = temp["register_addr"]
 
-    terms = f[terms]
-    no_of_register = f[no_of_register]
-    unused_bits = f[unused_bits]
-    memory_bits = f[memory_bits]
-    immediate_values = f[immediate_values]
-    register_addr = f[register_addr]
+# For testing
+def main():
+    pprint.pprint(register_addr)
+
+if __name__ == "__main__":
+    main()
