@@ -1,15 +1,27 @@
 {
-    "add" : {
-        "opcode" : "10000",
-        "instruction" : "Addition",
-        "semantics" : "Performs reg3 = reg1 + reg2. If the computation overflows, then the overflow flag is set",
-        "type" : "a"
-    },
-    "sub" : {
-        "opcode" : "10001",
-        "instruction" : "Subtraction",
-        "semantics" : "Performs reg3 = reg1 - reg2. In case reg2 > reg1, 0 is written to reg3 and overflow flag is set",
-        "type" : "a"
-    }
+    "opcode" : [["add","10000","a"] , 
+    ["sub","10001","a"],
+    ["mov","10010","b"],
+    ["mov","10011","c"],
+    ["ld","10100","d"],
+    ["st","10101","d"],
+    ["mul","10110","a"],
+    ["div","10111","c"],
+    ["rs","11000","b"],
+    ["ls","11001","b"],
+    ["xor","11010","a"],
+    ["or","11011","a"],
+    ["and","11100","a"],
+    ["not","11101","c"],
+    ["cmp","11110","c"],
+    ["jmp","11111","e"],
+    ["jlt","01100","e"],
+    ["jgt","01101","e"],
+    ["je","01111","e"],
+    ["hlt","01010","f"]
+]
 
 }
+
+
+
