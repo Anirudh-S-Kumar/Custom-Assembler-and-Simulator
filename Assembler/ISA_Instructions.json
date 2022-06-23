@@ -5,11 +5,53 @@
         "semantics" : "Performs reg3 = reg1 + reg2. If the computation overflows, then the overflow flag is set",
         "type" : "a"
     },
-    "sub" : {
+    "subtract" : {
         "opcode" : "10001",
         "instruction" : "Subtraction",
         "semantics" : "Performs reg3 = reg1 - reg2. In case reg2 > reg1, 0 is written to reg3 and overflow flag is set",
         "type" : "a"
+    },
+
+    "move immediate" : {
+        "opcode" : "10010",
+        "instruction" : "Move Immediate",
+        "semantics" : "Performs reg1 = $Imm where Imm is a 8 bit value.",
+        "type" : "b"
+
+    },
+    "move register" : {
+        "opcode" : "10011",
+        "instruction" : "Move Register",
+        "semantics" : "Performs reg2 = reg1",
+        "type" : "c"
+    },
+
+    "load" : {
+        "opcode" : "10100",
+        "instruction" : "Load",
+        "semantics" : "Loads data from mem_addr into reg1.",
+        "type" : "d"
+
+    },
+
+    "store" : {
+        "opcode" : "10101",
+        "instruction" : "Store",
+        "semantics" : "Stores data from reg1 to mem_addr.",
+        "type" : "d"
+    },
+    "multiply" : {
+        "opcode" : "10110",
+        "instruction" : "Multiply",
+        "semantics" : "Performs reg3 = reg1 x reg2. If the computation overflows, then the overflow flag is set.",
+        "type" : "mul reg1 reg2 reg3"
+    },
+    
+    "divide" : {
+        "opcode" : "10111",
+        "instruction" : "Divide",
+        "semantics" : "Performs reg3/reg4 stores the quotient in R0 and the remainder in R1.",
+        "type" : "c"
     }
 
 }
