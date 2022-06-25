@@ -2,10 +2,11 @@ from all_constants import *
 
 # Helpers
 
-def isInstruction(val: str) -> bool:
-    if val in opcode:
-        return True
-    return False
+def isInstruction(val: str) -> tuple:
+    for i in opcodes:
+        if val in opcodes[i]:
+            return True, i
+    return False, "Instruction given is not a valid instruction"
 
 
 def isRegister(val: str) -> bool:
@@ -13,22 +14,17 @@ def isRegister(val: str) -> bool:
         return True
     return False
 
-
-def isEmpty(inst: str) -> bool:
-    if not inst: # ignoring empty lines
-        return True
-    return False    
-
-
-def isVar(inst: str) -> bool:
+def isVar(inst: str) -> tuple:
     inst.split()
     if inst[0] == "var":
-        return True
-    return False
+        if len(inst) == 2:
+            return True, inst[1]
+        return False, "Illegal definition of variable"
+    return False, ""
 
 
 
-def isValidInstr(inst: str, vars: dict) -> bool:
+def isValidInstr(inst: str, vars: dict) -> tuple:
     """Return True if the instruction is a valid instruction, else returns false
     
     Parameter
@@ -40,26 +36,35 @@ def isValidInstr(inst: str, vars: dict) -> bool:
     """
     
     inst.split()
+    validIns, returnString = isInstruction(inst[0])
 
-    if not (isInstruction(inst[0])): # Ignoring labels
-        return False
+    if not (validIns): # Returning false if Instruction is not a valid instruction
+        return False, returnString
 
-    type = opcode[inst[0]]["type"]
+    type = returnString
     type_struct = type_structure[type]
 
-    #interating through all the elements of the instruction and making sure all are correct
+    #iterating through all the elements of the instruction and making sure all are correct
     for j, i in enumerate(inst):
         if type_struct[j] == "unused":
             continue
+
         if type_struct[j] == "opcode":
-            if not isInstruction(i):
-                raise NameError("Instruction not in the ISA specification")
+            continue
 
         elif type_struct[j] == "memory":
             if i not in vars:
-                raise NameError("Memory address not defined")
+                return False , "Memory address not defined"
 
         elif type_struct[j] == "immediate":
             if i[0] != "$":
-                raise NameError("Immediate value missing")
+                return False, "Immediate value missing"
 
+        elif type_struct[j] == "reg":
+            if not isRegister(i):
+                return False, "Not a Valid Register"
+
+    return True, "" # returning true with an empty string if all checks pass
+
+def isValidLabel(inst: str, vars: dict) -> tuple:
+    pass
