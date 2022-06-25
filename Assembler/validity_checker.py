@@ -28,8 +28,16 @@ def isVar(inst: str) -> bool:
 
 
 
-def ValidityCheckerInstr(inst: str) -> bool:
-    """return True if the instruction is a valid instruction, else returns false"""
+def isValidInstr(inst: str, vars: dict) -> bool:
+    """Return True if the instruction is a valid instruction, else returns false
+    
+    Parameter
+    -------
+    inst : str
+        The instruction to be evaluated
+    vars : dict
+        list of variables that have been added already
+    """
     
     inst.split()
 
@@ -38,4 +46,20 @@ def ValidityCheckerInstr(inst: str) -> bool:
 
     type = opcode[inst[0]]["type"]
     type_struct = type_structure[type]
+
+    #interating through all the elements of the instruction and making sure all are correct
+    for j, i in enumerate(inst):
+        if type_struct[j] == "unused":
+            continue
+        if type_struct[j] == "opcode":
+            if not isInstruction(i):
+                raise NameError("Instruction not in the ISA specification")
+
+        elif type_struct[j] == "memory":
+            if i not in vars:
+                raise NameError("Memory address not defined")
+
+        elif type_struct[j] == "immediate":
+            if i[0] != "$":
+                raise NameError("Immediate value missing")
 
