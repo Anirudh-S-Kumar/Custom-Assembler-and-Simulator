@@ -24,7 +24,7 @@ def isVar(inst: str) -> tuple:
 
 
 
-def isValidInstr(inst: str, vars: dict) -> tuple:
+def isValidInstr(inst: str, vars: list, memory:dict) -> tuple:
     """Return True if the instruction is a valid instruction, else returns false
     
     Parameter
@@ -33,6 +33,8 @@ def isValidInstr(inst: str, vars: dict) -> tuple:
         The instruction to be evaluated
     vars : dict
         list of variables that have been added already
+    memory : dict
+        list of labels defined in the program
     """
     
     inst.split()
@@ -66,5 +68,25 @@ def isValidInstr(inst: str, vars: dict) -> tuple:
 
     return True, "" # returning true with an empty string if all checks pass
 
-def isValidLabel(inst: str, vars: dict) -> tuple:
-    pass
+def isValidLabel(inst: str, vars: dict, memory: dict) -> tuple:
+    """Returns True if it's a valid label, and returns false otherwise
+    Also returns an empty string if it's a label, and error message otherwise
+    Parameter
+    -------
+    inst : str
+        The instruction to be evaluated
+    vars : dict
+        list of variables that have been added already
+    memory : dict
+        list of labels defined in the program
+    """
+    inst.split()
+    if (inst[0][-1] != ":"):
+        return False, "Colon missing after label"
+
+    validIns, returnString = isInstruction[inst[0][:-1:]]
+
+    if validIns:
+        return False, "Label name cannot be an instruction"
+
+    
