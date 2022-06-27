@@ -30,7 +30,7 @@ for j, inst in enumerate(instructions):
         variables.append({name: 0})
     else:
         if name:
-            fout.write(name)
+            fout.write(f"Compile Error : {name}")
             fout.write('\n')
             Error = False
             break
@@ -50,6 +50,12 @@ for i in variables:
 for index, inst in enumerate(instructions[j:]):
     validInst, instMessage = isValidInstr(inst, vars=variables, memory=mem_addr_vars)
     validLabel, labelMessage = isValidLabel(inst, vars=variables, memory=mem_addr_vars)
+
+    # If there is some variable declaration after all the variables have been declared at the top
+    if isVar(inst)[0]:
+        fout.write(f"Error found in line {index} : {isVar(inst)[1]}")
+        Error = False
+        break
 
     # If instruction is neither a valid label, or a valid instruction
     if (not validInst) and (not validLabel):
