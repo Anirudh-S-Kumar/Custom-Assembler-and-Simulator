@@ -3,8 +3,9 @@ will be extracted and stored in python for ease of access"""
 
 import json
 import pprint
+import string
 
-
+validChars = set(string.ascii_letters + string.digits + "_")
 # Defining the dictionaries
 
 opcodes = {
