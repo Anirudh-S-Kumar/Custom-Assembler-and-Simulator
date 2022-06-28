@@ -21,9 +21,7 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
     if not (validIns): # Returning false if Instruction is not a valid instruction
         return False, "Instruction given is not a valid instruction"
 
-    for i in opcodes:
-        if inst[0] in opcodes[i]:
-            type=opcodes[i][-1]
+    type = returnType(inst)
 
     type_struct = type_structure[type]
 
