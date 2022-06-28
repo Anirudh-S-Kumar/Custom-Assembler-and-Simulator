@@ -2,14 +2,14 @@ from all_constants import *
 from helpers import *
 
 
-def isValidInstr(inst: str, vars: list, memory:dict) -> tuple:
+def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
     """Return True if the instruction is a valid instruction, else returns false
     
     Parameter
     -------
     inst : str
         The instruction to be evaluated
-    vars : dict
+    vars : list
         list of variables that have been added already
     memory : dict
         list of labels defined in the program
@@ -28,43 +28,46 @@ def isValidInstr(inst: str, vars: list, memory:dict) -> tuple:
     type_struct = type_structure[type]
 
     #iterating through all the elements of the instruction and making sure all are correct
-    for j, i in enumerate(inst):
+    i = 0
+    for j in type_struct:
         try:
-            if type_struct[j] == "unused":
+            if j == "unused":
                 continue
 
             if type_struct[j] == "opcode":
+                i+=1
                 continue
 
             elif type_struct[j] == "memory":
-                if type=='d':
-                    if not inVars(i, vars):
+                if type == 'd':
+                    if not inVars(inst[i], vars):
                         return False , "Variable not defined"
-                elif type=="e":
-                    if i not in memory:
+                elif type == "e":
+                    if not inMemory():
                         return False, "Label used is not defined"
 
 
             elif type_struct[j] == "immediate":
-                if i[0] != "$":
+                if inst[i][0] != "$":
                     return False, "Immediate value missing"
 
             elif type_struct[j] == "reg":
-                if not isRegister(i):
+                if not isRegister(inst[i]):
                     return False, "Not a Valid Register"
+            i+=1
         except:
             return False, "Something went terribly wrong. Should check up on that"
 
     return True, "" # returning true with an empty string if all checks pass
 
-def isValidLabel(inst: str, vars: dict, memory: dict) -> tuple:
+def isValidLabel(inst: str, variables: list, memory: dict) -> tuple:
     """Returns True if it's a valid label, and returns false otherwise
     Also returns an empty string if it's a label, and error message otherwise
     Parameter
     -------
     inst : str
         The instruction to be evaluated
-    vars : dict
+    vars : list
         list of variables that have been added already
     memory : dict
         list of labels defined in the program
@@ -73,13 +76,16 @@ def isValidLabel(inst: str, vars: dict, memory: dict) -> tuple:
     if (inst[0][-1] != ":"):
         return False, "Colon missing after label"
 
-    validIns, returnString = isInstruction[inst[0][:-1:]]
+    validName = isValidName(inst[0][:-1], vars, memory=memory)
+    if not validName:
+        return False, "Label name cannot be an instruction, an already existing variable name or memory address"
 
-    if validIns:
-        return False, "Label name cannot be an instruction"
-
+    temp1, temp2 = isValidInstr(inst[1:], variables=variables, memory=memory)
+    return temp1, temp2
 def main():
     """For Testing only"""
+    variables = []
+    isValidInstr()
 
 
 if __name__ == "__main__":

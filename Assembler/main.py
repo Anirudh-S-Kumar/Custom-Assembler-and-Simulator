@@ -1,5 +1,6 @@
 from all_constants import *
 from validity_checker import *
+import helpers
 
 # taking in the input from file
 instructions = []
@@ -21,55 +22,68 @@ mem_addr_vars = {} #format label : instruction_number
 variables = [] # variables defined at the start of the program. It will store dictionaries of format name:address
 line_counter = 0
 Error = False
+
 # main loop
-for j, inst in enumerate(instructions):
+def main():
 
-    #checking if it's a variable
-    isvar, name = isVar(inst)
-    if isvar:
-        variables.append({name: 0})
-    else:
-        if name:
-            fout.write(f"Compile Error : {name}")
-            fout.write('\n')
+    for j, inst in enumerate(instructions):
+        #if there are more than 256 instructions, throw error
+        if j > 255:
+            fout.write("Error : Memory overflow")
             Error = False
+            return;
+
+        #checking if it's a variable
+        isvar, name = isVar(inst, variables, mem_addr_vars)
+        if isvar:
+            variables.append({name: 0})
+        else:
+            if name:
+                fout.write(f"Compile Error : {name}")
+                fout.write('\n')
+                Error = False
+                return
             break
-        break
 
-line_counter = len(instructions) - j
-memory_add = line_counter+1
+    line_counter = len(instructions) - j
+    memory_add = line_counter+1
 
-#assigning memory address to variables
-for i in variables:
-    key = list(i.keys())[0]
-    i[key] = memory_add
-    memory_add+=1
+    #assigning memory address to variables
+    for i in variables:
+        key = list(i.keys())[0]
+        i[key] = memory_add
+        memory_add+=1
 
 
-# main loop for generating binary code
-for index, inst in enumerate(instructions[j:]):
-    validInst, instMessage = isValidInstr(inst, vars=variables, memory=mem_addr_vars)
-    validLabel, labelMessage = isValidLabel(inst, vars=variables, memory=mem_addr_vars)
+    # main loop for generating binary code
+    for index, inst in enumerate(instructions[j:]):
+        validInst, instMessage = isValidInstr(inst, vars=variables, memory=mem_addr_vars)
+        validLabel, labelMessage = isValidLabel(inst, vars=variables, memory=mem_addr_vars)
 
-    # If there is some variable declaration after all the variables have been declared at the top
-    if isVar(inst)[0]:
-        fout.write(f"Error found in line {index} : {isVar(inst)[1]}")
-        Error = False
-        break
+        if (index+j) > 255:
+            fout.write("Error : Memory overflow")
+            Error = False
+            return
 
-    # If instruction is neither a valid label, or a valid instruction
-    if (not validInst) and (not validLabel):
-        fout.write(f"Error found in line {index}: {labelMessage}")
-        Error = False
-        break
-    
-    # If instruction is not a valid instruction
-    if (not validInst):
-        fout.write(f"Error found in line {index} : {instMessage}")
-        Error = False
-        break
-    
-    # if (validLabel):
+        # If there is some variable declaration after all the variables have been declared at the top
+        if isVar(inst)[0]:
+            fout.write(f"Error found in line {index} : Variable definition after all variables have been declared")
+            Error = False
+            return
+
+        # If instruction is neither a valid label, or a valid instruction
+        if (not validInst) and (not validLabel):
+            fout.write(f"Error found in line {index}: {labelMessage}")
+            Error = False
+            return
+        
+        # If instruction is not a valid instruction
+        if (not validInst):
+            fout.write(f"Error found in line {index} : {instMessage}")
+            Error = False
+            return
+        
+        # if (validLabel):
 
     
 
