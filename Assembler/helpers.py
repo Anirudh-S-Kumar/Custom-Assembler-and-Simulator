@@ -7,6 +7,23 @@ def isInstruction(val: str) -> bool:
             return True
     return False 
 
+def isImmediate(val:str) -> bool:
+    if (val[-1] == "$"):
+        return True
+    return False
+
+def returnType(inst: str) ->str:
+    inst = inst.split()
+    for i in opcodes:
+        if inst[0] in opcodes[i]:
+            if (inst[0] == "mov"):
+                if isImmediate(inst[-1]):
+                    return 'b'
+                else:
+                    return 'c'
+            return i[-1]
+    return ""     
+
 
 def isRegister(val: str) -> bool:
     if val in register_addr:
