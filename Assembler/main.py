@@ -9,7 +9,6 @@ with open("dummy.txt", "r") as f:
 
 instructions = [i for i in instructions if i] # removing empty lines
 
-
 # creating the output file for the binary
 fout = open("output.txt", "w")
 
@@ -34,7 +33,7 @@ def main():
             return;
 
         #checking if it's a variable
-        isvar, name = helpers.isVar(inst, variables, mem_addr_vars)
+        isvar, name = helpers.isVar(inst, variables=variables, memory=mem_addr_vars)
         if isvar:
             variables.append({name: 0})
         else:
@@ -54,43 +53,65 @@ def main():
         i[key] = memory_add
         memory_add+=1
 
+    #parsing for labels
+    for index, inst in enumerate(instructions[j:]):
+        if helpers.overflow(index+j):
+            fout.write(helpers.overflow(index+j))
+            Error = True
+            return
+        
+        # print(inst)
+        if (weakIsLabel(inst, variables=variables, memory=mem_addr_vars))[0]:
+            inst = inst.split()
+            mem_addr_vars[inst[0][:-1]] = index
+    # print(variables)
+    # print(mem_addr_vars)
 
     # main loop for generating binary code
     for index, inst in enumerate(instructions[j:]):
+        print(inst)
         validInst, instMessage = isValidInstr(inst, variables=variables, memory=mem_addr_vars)
         validLabel, labelMessage = isValidLabel(inst, variables=variables, memory=mem_addr_vars)
-
-        if (index+j) > 255:
-            fout.write("Error : Memory overflow")
+        print(validInst, validLabel)
+        #overflow condition
+        if helpers.overflow(index+j):
+            fout.write(helpers.overflow(index+j))
             Error = True
             return
 
         # If there is some variable declaration after all the variables have been declared at the top
-        if isVar(inst)[0]:
+        if isVar(inst, variables=variables, memory=mem_addr_vars)[0]:
             fout.write(f"Error found in line {index} : Variable definition after all variables have been declared")
             Error = True
             return
 
         # If instruction is neither a valid label, or a valid instruction
+        if (validLabel):
+            continue
+        
+        if validInst:
+            continue
+
         if (not validLabel):
-            fout.write(f"Error found in line {index}: {labelMessage}")
-            Error = True
-            return
+            if (not validInst):
+                fout.write(f"Error found in line {index}: {instMessage}")
+                Error = True
+                return
+            else:
+                fout.write(f"Error found in line {index} : {labelMessage}")
+                Error = True
+                return
         
         # If instruction is not a valid instruction
         if (not validInst):
-            fout.write(f"Error found in line {index} : {instMessage}")
-            Error = True
-            return
+            pass
         
 
-        if (validLabel):
-            pass
+        # if (validLabel):
+        #     pass
 
-
+main()
     
 
 if Error:
     fout.write("Program did not compile properly\n")
-else:
-    pass

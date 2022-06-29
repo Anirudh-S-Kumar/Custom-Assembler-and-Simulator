@@ -1,6 +1,13 @@
 from all_constants import *
 
 
+def isValidChars(val:str) -> bool:
+    "Returns True if all the characters in the string are a subset of valid characters"
+    val = set(val)
+    if validChars.union(val) == validChars:
+        return True
+    return False
+
 def isInstruction(val: str) -> bool:
     for i in opcodes:
         if val in opcodes[i]:
@@ -8,7 +15,7 @@ def isInstruction(val: str) -> bool:
     return False 
 
 def isImmediate(val:str) -> bool:
-    if (val[-1] == "$"):
+    if (val[0] == "$"):
         return True
     return False
 
@@ -31,10 +38,10 @@ def isRegister(val: str) -> bool:
     return False
 
 def isVar(inst: str, variables:list, memory:dict) -> tuple:
-    inst.split()
+    inst = inst.split()
     if inst[0] == "var":
         if len(inst) == 2:
-            if isValidName(inst, variables, memory):
+            if isValidName(inst[1], variables, memory):
                 return True, inst[1]
         return False, "Illegal definition of variable"
     return False, ""
@@ -49,7 +56,7 @@ def inVars(var:str, variables:list) -> bool:
     return False
 
 def inMemory(addr:str, memory:dict):
-    """Returns True if given variable is in the list of variables or not"""
+    """Returns True if given address is in the list of addresses or not"""
     if addr in memory:
         return True
     return False
@@ -57,10 +64,17 @@ def inMemory(addr:str, memory:dict):
 
 def isValidName(var:str, variables:list, memory:dict) -> bool:
     """Returns True if the variable name is valid, and False otherwise"""
-    if inVars(vars, variables) or inMemory(var, memory=memory) or isInstruction(var) or isRegister(var) or not(var in validChars):
+    if inVars(vars, variables) or inMemory(var, memory=memory) or isInstruction(var) or isRegister(var) or not(isValidChars(var)):
         return False
     return True
 
+def overflow(index:int) -> str:
+    """Return True if memory overflow has occured"""
+    if (index) > 255:
+        return "Error : Memory overflow"
+    return ""
+
 
 if __name__ == "__main__":
-    print(isInstruction("add"))
+    # print(isValidName("label", [], {}))
+    print(inMemory("label", {'label': 7}))
