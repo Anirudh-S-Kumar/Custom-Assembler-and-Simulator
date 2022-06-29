@@ -46,8 +46,8 @@ with open("other_constants.json") as f:
 # For testing
 def main():
     pprint.pprint(opcodes, width=1)
-    # print((opcodes.keys()))
+    #print((opcodes.keys()))
 
 if __name__ == "__main__":
-    pprint.pprint(opcodes, width=1)
-    # print(opcodes)
+    pprint.pprint(terms, width=1)
+    print(terms)
