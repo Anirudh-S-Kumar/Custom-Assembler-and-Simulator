@@ -15,8 +15,8 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
         list of labels defined in the program
     """
     
-    inst = inst.split()
-    validIns = isInstruction(inst[0])
+    instToken = inst.split()
+    validIns = isInstruction(instToken[0])
     if not (validIns): # Returning false if Instruction is not a valid instruction
         return False, "Instruction given is not a valid instruction"
 
@@ -37,20 +37,20 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
 
             elif j == "memory":
                 if type == 'd':
-                    if not inVars(inst[i], variables):
-                        return False , f"'{inst[i]}' variable not defined"
+                    if not inVars(instToken[i], variables):
+                        return False , f"'{instToken[i]}' variable not defined"
                 elif type == "e":
-                    if not inMemory(inst[i], memory):
-                        return False, f"'{inst[i]}' label used is not defined"
+                    if not inMemory(instToken[i], memory):
+                        return False, f"'{instToken[i]}' label used is not defined"
 
 
             elif j == "immediate":
-                if inst[i][0] != "$":
+                if instToken[i][0] != "$":
                     return False, "Immediate value missing"
 
             elif j == "reg":
-                if not isRegister(inst[i]):
-                    return False, f"'{inst[i]}'is not a Valid Register"
+                if not isRegister(instToken[i]):
+                    return False, f"'{instToken[i]}'is not a Valid Register"
             i+=1
         # except:
         #     return False, "Something went terribly wrong. Should check up on that"
@@ -59,13 +59,14 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
 
 def weakIsLabel(inst:str, variables:list, memory:dict) -> tuple:
     """A weaker version of the isValidLabel instruction"""
-    inst.split()
+    inst = inst.split()
     if (inst[0][-1] != ":"):
         return False, "Colon missing after label"
 
     validName = isValidName(inst[0][:-1], variables, memory=memory)
     if not validName:
         return False, "Label name cannot be an instruction, an already existing variable name or memory address"
+    return True, ""
 
 
 def isValidLabel(inst: str, variables: list, memory: dict) -> tuple:
@@ -81,11 +82,16 @@ def isValidLabel(inst: str, variables: list, memory: dict) -> tuple:
         list of labels defined in the program
     """
 
-    validName, message = weakIsLabel(inst, variables=variables, memory=memory)
+    # inst = inst.split()
+    # if (inst[0][-1] != ":"):
+    #     return False, "Colon missing after label"
+    inst = inst.split()
+    validName = inMemory(inst[0][:-1], memory=memory)
     if not validName:
-        return validName, message
+        return False, "Weird unexpected behavior happened"
 
-    temp1, temp2 = isValidInstr(inst[1:], variables=variables, memory=memory)
+    temp = " ".join(inst[1:])
+    temp1, temp2 = isValidInstr(temp, variables=variables, memory=memory)
     return temp1, temp2
 
 # def notValid(inst:str, variables:list, memory:str) -> bool:
@@ -95,8 +101,8 @@ def isValidLabel(inst: str, variables: list, memory: dict) -> tuple:
 def main():
     """For Testing only"""
     variables = [{"abc": 10, "asdwe": 11, "asdawd":12}]
-    memory = {"sub1":5, "sub2": 7}
-    print(isValidInstr("cmp R1 R0 ", variables=variables, memory=memory))
+    memory = {'label': 7}
+    print(isValidLabel("label: hlt", variables=variables, memory=memory))
 
 
 if __name__ == "__main__":
