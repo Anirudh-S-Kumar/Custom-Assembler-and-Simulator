@@ -63,4 +63,4 @@ def isValidName(var:str, variables:list, memory:dict) -> bool:
 
 
 if __name__ == "__main__":
-    pass
+    print(isInstruction("add"))
