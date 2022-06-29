@@ -30,16 +30,16 @@ def main():
         #if there are more than 256 instructions, throw error
         if j > 255:
             fout.write("Error : Memory overflow")
-            Error = False
+            Error = True
             return;
 
         #checking if it's a variable
-        isvar, name = isVar(inst, variables, mem_addr_vars)
+        isvar, name = helpers.isVar(inst, variables, mem_addr_vars)
         if isvar:
             variables.append({name: 0})
         else:
             if name:
-                fout.write(f"Compile Error : {name}")
+                fout.write(f"Error in line : {name}")
                 fout.write('\n')
                 Error = False
                 return
@@ -57,37 +57,40 @@ def main():
 
     # main loop for generating binary code
     for index, inst in enumerate(instructions[j:]):
-        validInst, instMessage = isValidInstr(inst, vars=variables, memory=mem_addr_vars)
-        validLabel, labelMessage = isValidLabel(inst, vars=variables, memory=mem_addr_vars)
+        validInst, instMessage = isValidInstr(inst, variables=variables, memory=mem_addr_vars)
+        validLabel, labelMessage = isValidLabel(inst, variables=variables, memory=mem_addr_vars)
 
         if (index+j) > 255:
             fout.write("Error : Memory overflow")
-            Error = False
+            Error = True
             return
 
         # If there is some variable declaration after all the variables have been declared at the top
         if isVar(inst)[0]:
             fout.write(f"Error found in line {index} : Variable definition after all variables have been declared")
-            Error = False
+            Error = True
             return
 
         # If instruction is neither a valid label, or a valid instruction
-        if (not validInst) and (not validLabel):
+        if (not validLabel):
             fout.write(f"Error found in line {index}: {labelMessage}")
-            Error = False
+            Error = True
             return
         
         # If instruction is not a valid instruction
         if (not validInst):
             fout.write(f"Error found in line {index} : {instMessage}")
-            Error = False
+            Error = True
             return
         
-        # if (validLabel):
+
+        if (validLabel):
+            pass
+
 
     
 
 if Error:
     fout.write("Program did not compile properly\n")
 else:
-    fout.write("Programmed Compiled properly\n")
+    pass
