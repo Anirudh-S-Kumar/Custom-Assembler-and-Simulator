@@ -49,4 +49,5 @@ def main():
     # print((opcodes.keys()))
 
 if __name__ == "__main__":
-    main()
+    pprint.pprint(opcodes, width=1)
+    # print(opcodes)
