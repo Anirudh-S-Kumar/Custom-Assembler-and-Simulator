@@ -87,11 +87,15 @@ def main():
 
         # If instruction is neither a valid label, or a valid instruction
         if (validLabel):
+            instToken = inst.split()
+            tempInst = " ".join(instToken[1:])
+            type = returnType(tempInst)
             continue
         
         if validInst:
             continue
-
+        
+        # If instruction is not a valid instruction
         if (not validLabel):
             if (not validInst):
                 fout.write(f"Error found in line {index}: {instMessage}")
@@ -102,9 +106,9 @@ def main():
                 Error = True
                 return
         
-        # If instruction is not a valid instruction
-        if (not validInst):
-            pass
+        
+        # if (not validInst):
+        #     pass
         
 
         # if (validLabel):
