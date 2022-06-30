@@ -1,4 +1,4 @@
-ip9:
+ip9
 
 var y
 mov R1 $250
