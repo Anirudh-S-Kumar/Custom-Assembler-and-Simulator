@@ -1,5 +1,6 @@
 from all_constants import *
 from validity_checker import *
+from generateBinary import returnBinary
 import helpers
 
 # taking in the input from file
@@ -89,10 +90,13 @@ def main():
         if (validLabel):
             instToken = inst.split()
             tempInst = " ".join(instToken[1:])
-            type = returnType(tempInst)
+            fout.write(returnBinary(tempInst, variables=variables, memory=mem_addr_vars))
+            fout.write("\n")
             continue
         
         if validInst:
+            fout.write(returnBinary(inst, variables=variables, memory=mem_addr_vars))
+            fout.write("\n")
             continue
         
         # If instruction is not a valid instruction
