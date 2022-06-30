@@ -32,10 +32,12 @@ def type_f(ins:str) ->str:
     return (op+"00000000000")
 
 
-def type_d(ins:str, memory:dict)->str:
+def type_d(ins:str, variables:list)->str:
     ins = ins.split()
-    addr = memory[ins[2]]
-    mem_addr = '{0:08b}'.format(int(addr))
+    #define a key
+    a_key = ins[2]
+    list_of_values = [a_dict.get(a_key) for a_dict in variables]
+    mem_addr = '{0:08b}'.format(int(list_of_values[0]))
     op = opcodes["type-d"][ins[0]]
     r1 = register_addr[ins[1]]
     #addr = (ins[2])
@@ -54,4 +56,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    print(type_d("st R3 X",{"X":5}))
+    print(type_d("st R3 X",[{"X":"5"}]))
