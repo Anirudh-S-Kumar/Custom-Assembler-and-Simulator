@@ -23,7 +23,7 @@ def type_c(ins:str) ->str:
     op = opcodes["type-c"][ins[0]]
     r1 = register_addr[ins[1]]
     r2 = register_addr[ins[2]]
-    return (op+"00000"+r1+r2)  #since there's no sample test case for this statement so I didn't checked
+    return (op+"00000"+r1+r2)  #since there's no sample test case for this statement so I have not checked
 
 
 def type_f(ins:str) ->str:
