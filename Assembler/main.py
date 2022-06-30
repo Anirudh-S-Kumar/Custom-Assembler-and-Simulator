@@ -1,3 +1,4 @@
+from socket import if_nameindex
 from all_constants import *
 from validity_checker import *
 from generateBinary import returnBinary
@@ -29,8 +30,8 @@ def main():
     for j, inst in enumerate(instructions):
         #if there are more than 256 instructions, throw error
         if j > 255:
-            fout.write("Error : Memory overflow")
             Error = True
+            fout.write("Error : Memory overflow")
             return;
 
         #checking if it's a variable
@@ -44,7 +45,7 @@ def main():
                 Error = False
                 return
             break
-
+    print(j)
     line_counter = len(instructions) - j
     memory_add = line_counter+1
 
@@ -70,10 +71,12 @@ def main():
 
     # main loop for generating binary code
     for index, inst in enumerate(instructions[j:]):
-        print(inst)
+
+        # print(inst)
         validInst, instMessage = isValidInstr(inst, variables=variables, memory=mem_addr_vars)
         validLabel, labelMessage = isValidLabel(inst, variables=variables, memory=mem_addr_vars)
-        print(validInst, validLabel)
+        # print(validInst, validLabel)
+
         #overflow condition
         if helpers.overflow(index+j):
             fout.write(helpers.overflow(index+j))
@@ -82,7 +85,7 @@ def main():
 
         # If there is some variable declaration after all the variables have been declared at the top
         if isVar(inst, variables=variables, memory=mem_addr_vars)[0]:
-            fout.write(f"Error found in line {index} : Variable definition after all variables have been declared")
+            fout.write(f"Error found in line {index+j} : Variable definition after all variables have been declared")
             Error = True
             return
 
@@ -92,21 +95,33 @@ def main():
             tempInst = " ".join(instToken[1:])
             fout.write(returnBinary(tempInst, variables=variables, memory=mem_addr_vars))
             fout.write("\n")
+
+            #making sure last instruction is always hlt
+            if helpers.returnType(tempInst) == "f":
+                if (index+j+1) != len(instructions):
+                    fout.write(f"Error found in line {index+j+1}: Instructions after hlt are invalid\n")
+                    Error = True
+                    return
             continue
         
         if validInst:
             fout.write(returnBinary(inst, variables=variables, memory=mem_addr_vars))
             fout.write("\n")
+            if helpers.returnType(tempInst) == "f":
+                if (index+j+1) != len(instructions):
+                    fout.write(f"Error found in line {index+j+1}: Instructions after hlt are invalid\n")
+                    Error = True
+                    return
             continue
         
         # If instruction is not a valid instruction
         if (not validLabel):
             if (not validInst):
-                fout.write(f"Error found in line {index}: {instMessage}")
+                fout.write(f"Error found in line {index+j}: {instMessage}")
                 Error = True
                 return
             else:
-                fout.write(f"Error found in line {index} : {labelMessage}")
+                fout.write(f"Error found in line {index+j} : {labelMessage}")
                 Error = True
                 return
         
