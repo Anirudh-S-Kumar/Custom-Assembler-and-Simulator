@@ -103,7 +103,7 @@ def main():
                 if (index+j+1) != len(instructions):
                     print(f"Error found in line {index+j+2}: Instructions after hlt are invalid")
                     Error = True
-                return
+                    return
             continue
         
         if validInst:
@@ -112,7 +112,7 @@ def main():
                 if (index+j+1) != len(instructions):
                     print(f"Error found in line {index+j+2}: Instructions after hlt are invalid")
                     Error = True
-                return
+                    return
             continue
         
         # If instruction is not a valid instruction
