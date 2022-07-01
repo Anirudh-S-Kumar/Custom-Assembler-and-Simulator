@@ -35,7 +35,7 @@ def main():
 
         if j > 255:
             Error = True
-            print("Error : Memory overflow")
+            print("Error: Memory overflow")
             return
 
         #checking if it's a variable
@@ -88,7 +88,7 @@ def main():
 
         # If there is some variable declaration after all the variables have been declared at the top
         if isVar(inst, variables=variables, memory=mem_addr_vars)[0]:
-            print(f"Error found in line {index+j+1} : Variable definition after all variables have been declared")
+            print(f"Error found in line {index+j+1}: Variable definition after all variables have been declared")
             Error = True
             return
 
@@ -122,13 +122,17 @@ def main():
                 Error = True
                 return
             else:
-                print(f"Error found in line {index+j+1} : {labelMessage}")
+                print(f"Error found in line {index+j+1}: {labelMessage}")
                 Error = True
                 return
-        
-        
-        # if (not validInst):
-        #     pass
+    try:
+        if instructions[-1] != 'hlt' or instructions[-1].split()[1] != 'hlt':
+            print(f"Error in line {index+j+1}: hlt instruction missing")
+            return
+    except IndexError:
+        if instructions[-1] != 'hlt':
+            print(f"Error in line {index+j+1}: hlt instruction missing")
+            return
         
 
         # if (validLabel):

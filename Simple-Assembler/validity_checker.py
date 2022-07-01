@@ -51,6 +51,10 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
             elif j == "reg":
                 if not isRegister(instToken[i]):
                     return False, f"'{instToken[i]}'is not a Valid Register"
+                
+                if instToken[i] == 'FLAGS':
+                    if (i != 1) or instToken[0] != "mov":
+                        return False, "Illegal use of flag"
             i+=1
         # except:
         #     return False, "Something went terribly wrong. Should check up on that"
