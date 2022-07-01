@@ -11,7 +11,10 @@ while True:
     except EOFError:
         break
 
-# instructions = [i for i in instructions if i] # removing empty lines
+instructions = [i for i in instructions if i] # removing empty lines
+
+#Creating output list
+output = []
 
 # Other misc constants 
 MAX_IMM_VALUE = 2**8 - 1
@@ -28,10 +31,12 @@ def main():
 
     for j, inst in enumerate(instructions):
         #if there are more than 256 instructions, throw error
+
+
         if j > 255:
             Error = True
             print("Error : Memory overflow")
-            return;
+            return
 
         #checking if it's a variable
         isvar, name = helpers.isVar(inst, variables=variables, memory=mem_addr_vars)
@@ -39,11 +44,11 @@ def main():
             variables.append({name: 0})
         else:
             if name:
-                print(f"Error in line : {name}")
+                print(f"Error in line {j+1}: {name}")
                 Error = False
                 return
             break
-    print(j)
+    # print(j)
     line_counter = len(instructions) - j
     memory_add = line_counter+1
 
@@ -83,7 +88,7 @@ def main():
 
         # If there is some variable declaration after all the variables have been declared at the top
         if isVar(inst, variables=variables, memory=mem_addr_vars)[0]:
-            print(f"Error found in line {index+j} : Variable definition after all variables have been declared")
+            print(f"Error found in line {index+j+1} : Variable definition after all variables have been declared")
             Error = True
             return
 
@@ -91,21 +96,21 @@ def main():
         if (validLabel):
             instToken = inst.split()
             tempInst = " ".join(instToken[1:])
-            print(returnBinary(tempInst, variables=variables, memory=mem_addr_vars))
+            output.append(returnBinary(tempInst, variables=variables, memory=mem_addr_vars))
 
             #making sure last instruction is always hlt
             if helpers.returnType(tempInst) == "f":
                 if (index+j+1) != len(instructions):
-                    print(f"Error found in line {index+j+1}: Instructions after hlt are invalid\n")
+                    print(f"Error found in line {index+j+2}: Instructions after hlt are invalid")
                     Error = True
                     return
             continue
         
         if validInst:
-            print(returnBinary(inst, variables=variables, memory=mem_addr_vars))
-            if helpers.returnType(tempInst) == "f":
+            output.append(returnBinary(inst, variables=variables, memory=mem_addr_vars))
+            if helpers.returnType(inst) == "f":
                 if (index+j+1) != len(instructions):
-                    print(f"Error found in line {index+j+1}: Instructions after hlt are invalid\n")
+                    print(f"Error found in line {index+j+2}: Instructions after hlt are invalid")
                     Error = True
                     return
             continue
@@ -113,11 +118,11 @@ def main():
         # If instruction is not a valid instruction
         if (not validLabel):
             if (not validInst):
-                print(f"Error found in line {index+j}: {instMessage}")
+                print(f"Error found in line {index+j+1}: {instMessage}")
                 Error = True
                 return
             else:
-                print(f"Error found in line {index+j} : {labelMessage}")
+                print(f"Error found in line {index+j+1} : {labelMessage}")
                 Error = True
                 return
         
@@ -128,9 +133,12 @@ def main():
 
         # if (validLabel):
         #     pass
+    for i in output:
+        print(i)
+
 
 main()
     
 
-if Error:
-    print("Program did not compile properly\n")
+# if Error:
+#     print("Program did not compile properly\n")
