@@ -1,6 +1,6 @@
 from all_constants import *
 from helpers import *
-
+from math import log2, floor
 
 def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
     """Return True if the instruction is a valid instruction, else returns false
@@ -47,10 +47,13 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
             elif j == "immediate":
                 if instToken[i][0] != "$":
                     return False, "Immediate value missing"
+                
+                if floor(log2(int(instToken[i][1:]))) > 7:
+                    return False, "Immediate value greater than memory size"
 
             elif j == "reg":
                 if not isRegister(instToken[i]):
-                    return False, f"'{instToken[i]}'is not a Valid Register"
+                    return False, f"'{instToken[i]}' is not a Valid Register"
                 
                 if instToken[i] == 'FLAGS':
                     if (i != 1) or instToken[0] != "mov":
