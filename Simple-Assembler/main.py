@@ -1,18 +1,17 @@
-from socket import if_nameindex
 from all_constants import *
 from validity_checker import *
 from generateBinary import returnBinary
 import helpers
 
-# taking in the input from file
+# taking in the input from stdin
 instructions = []
-with open("dummy.txt", "r") as f:
-    instructions = f.read().splitlines()
+while True:
+    try:
+        instructions.append(input())
+    except EOFError:
+        break
 
-instructions = [i for i in instructions if i] # removing empty lines
-
-# creating the output file for the binary
-fout = open("output.txt", "w")
+# instructions = [i for i in instructions if i] # removing empty lines
 
 # Other misc constants 
 MAX_IMM_VALUE = 2**8 - 1
@@ -31,7 +30,7 @@ def main():
         #if there are more than 256 instructions, throw error
         if j > 255:
             Error = True
-            fout.write("Error : Memory overflow")
+            print("Error : Memory overflow")
             return;
 
         #checking if it's a variable
@@ -40,8 +39,7 @@ def main():
             variables.append({name: 0})
         else:
             if name:
-                fout.write(f"Error in line : {name}")
-                fout.write('\n')
+                print(f"Error in line : {name}")
                 Error = False
                 return
             break
@@ -58,7 +56,7 @@ def main():
     #parsing for labels
     for index, inst in enumerate(instructions[j:]):
         if helpers.overflow(index+j):
-            fout.write(helpers.overflow(index+j))
+            print(helpers.overflow(index+j))
             Error = True
             return
         
@@ -79,13 +77,13 @@ def main():
 
         #overflow condition
         if helpers.overflow(index+j):
-            fout.write(helpers.overflow(index+j))
+            print(helpers.overflow(index+j))
             Error = True
             return
 
         # If there is some variable declaration after all the variables have been declared at the top
         if isVar(inst, variables=variables, memory=mem_addr_vars)[0]:
-            fout.write(f"Error found in line {index+j} : Variable definition after all variables have been declared")
+            print(f"Error found in line {index+j} : Variable definition after all variables have been declared")
             Error = True
             return
 
@@ -93,23 +91,21 @@ def main():
         if (validLabel):
             instToken = inst.split()
             tempInst = " ".join(instToken[1:])
-            fout.write(returnBinary(tempInst, variables=variables, memory=mem_addr_vars))
-            fout.write("\n")
+            print(returnBinary(tempInst, variables=variables, memory=mem_addr_vars))
 
             #making sure last instruction is always hlt
             if helpers.returnType(tempInst) == "f":
                 if (index+j+1) != len(instructions):
-                    fout.write(f"Error found in line {index+j+1}: Instructions after hlt are invalid\n")
+                    print(f"Error found in line {index+j+1}: Instructions after hlt are invalid\n")
                     Error = True
                     return
             continue
         
         if validInst:
-            fout.write(returnBinary(inst, variables=variables, memory=mem_addr_vars))
-            fout.write("\n")
+            print(returnBinary(inst, variables=variables, memory=mem_addr_vars))
             if helpers.returnType(tempInst) == "f":
                 if (index+j+1) != len(instructions):
-                    fout.write(f"Error found in line {index+j+1}: Instructions after hlt are invalid\n")
+                    print(f"Error found in line {index+j+1}: Instructions after hlt are invalid\n")
                     Error = True
                     return
             continue
@@ -117,11 +113,11 @@ def main():
         # If instruction is not a valid instruction
         if (not validLabel):
             if (not validInst):
-                fout.write(f"Error found in line {index+j}: {instMessage}")
+                print(f"Error found in line {index+j}: {instMessage}")
                 Error = True
                 return
             else:
-                fout.write(f"Error found in line {index+j} : {labelMessage}")
+                print(f"Error found in line {index+j} : {labelMessage}")
                 Error = True
                 return
         
@@ -137,4 +133,4 @@ main()
     
 
 if Error:
-    fout.write("Program did not compile properly\n")
+    print("Program did not compile properly\n")
