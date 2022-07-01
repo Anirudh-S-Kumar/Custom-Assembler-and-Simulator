@@ -1,4 +1,4 @@
 .vscode/
 /**/*.pyc
-Assembler/output.txt
-Assembler/dummy.txt
+Simple-Assembler/output.txt
+Simple-Assembler/dummy.txt
