@@ -70,7 +70,7 @@ def isValidName(var:str, variables:list, memory:dict) -> bool:
 
 def overflow(index:int) -> str:
     """Return True if memory overflow has occured"""
-    if (index) > 255:
+    if (index) > MAX_NO_OF_INSTRUCTIONS:
         return "Error : Memory overflow"
     return ""
 

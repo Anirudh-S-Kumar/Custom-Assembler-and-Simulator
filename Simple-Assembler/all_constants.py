@@ -20,6 +20,9 @@ terms = no_of_register = {}
 unused_bits = memory_bits = {}
 immediate_values = register_addr = {}
 
+MAX_IMM_VALUE = 2**8 - 1
+MAX_NO_OF_INSTRUCTIONS = 2**8
+
 
 #Extracting data from them
 with open("ISA_Instructions.json") as f:
@@ -42,6 +45,8 @@ with open("other_constants.json") as f:
     immediate_values = temp["immediate_values"]
     register_addr = temp["register_addr"]
     type_structure = temp["type_structure"]
+
+
 
 # For testing
 def main():

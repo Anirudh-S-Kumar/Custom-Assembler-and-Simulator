@@ -16,15 +16,10 @@ instructions = [i for i in instructions if i] # removing empty lines
 #Creating output list
 output = []
 
-# Other misc constants 
-MAX_IMM_VALUE = 2**8 - 1
-MAX_NO_OF_INSTRUCTIONS = 2**8
-
 #variables to be used while generating the binary code
 mem_addr_vars = {} #format label : instruction_number
 variables = [] # variables defined at the start of the program. It will store dictionaries of format name:address
 line_counter = 0
-Error = False
 
 # main loop
 def main():
@@ -32,9 +27,7 @@ def main():
     for j, inst in enumerate(instructions):
         #if there are more than 256 instructions, throw error
 
-
-        if j > 255:
-            Error = True
+        if j > MAX_NO_OF_INSTRUCTIONS:
             print("Error: Memory overflow")
             return
 
@@ -44,11 +37,10 @@ def main():
             variables.append({name: 0})
         else:
             if name:
-                print(f"Error in line {j+1}: {name}")
-                Error = False
+                print(f"Error found in line {j+1}: {name}")
                 return
             break
-    # print(j)
+
     line_counter = len(instructions) - j
     memory_add = line_counter+1
 
@@ -62,37 +54,34 @@ def main():
     for index, inst in enumerate(instructions[j:]):
         if helpers.overflow(index+j):
             print(helpers.overflow(index+j))
-            Error = True
             return
         
-        # print(inst)
         if (weakIsLabel(inst, variables=variables, memory=mem_addr_vars))[0]:
             inst = inst.split()
             mem_addr_vars[inst[0][:-1]] = index
-    # print(variables)
-    # print(mem_addr_vars)
+        else:
+            instToken = inst.split()
+            if (instToken[0][-1] == ":"):
+                print(f"Error found in line {index+j+1}: {(weakIsLabel(inst, variables=variables, memory=mem_addr_vars))[1]}")
+                return
 
     # main loop for generating binary code
     for index, inst in enumerate(instructions[j:]):
 
-        # print(inst)
         validInst, instMessage = isValidInstr(inst, variables=variables, memory=mem_addr_vars)
         validLabel, labelMessage = isValidLabel(inst, variables=variables, memory=mem_addr_vars)
-        # print(validInst, validLabel)
 
         #overflow condition
         if helpers.overflow(index+j):
             print(helpers.overflow(index+j))
-            Error = True
             return
 
         # If there is some variable declaration after all the variables have been declared at the top
         if isVar(inst, variables=variables, memory=mem_addr_vars)[0]:
             print(f"Error found in line {index+j+1}: Variable definition after all variables have been declared")
-            Error = True
             return
 
-        # If instruction is neither a valid label, or a valid instruction
+        # If instruction is a valid label, or a valid instruction
         if (validLabel):
             instToken = inst.split()
             tempInst = " ".join(instToken[1:])
@@ -102,7 +91,6 @@ def main():
             if helpers.returnType(tempInst) == "f":
                 if (index+j+1) != len(instructions):
                     print(f"Error found in line {index+j+2}: Instructions after hlt are invalid")
-                    Error = True
                     return
             continue
         
@@ -111,20 +99,19 @@ def main():
             if helpers.returnType(inst) == "f":
                 if (index+j+1) != len(instructions):
                     print(f"Error found in line {index+j+2}: Instructions after hlt are invalid")
-                    Error = True
                     return
             continue
         
-        # If instruction is not a valid instruction
+        # If instruction is not a valid instruction, or label
         if (not validLabel):
             if (not validInst):
                 print(f"Error found in line {index+j+1}: {instMessage}")
-                Error = True
                 return
             else:
                 print(f"Error found in line {index+j+1}: {labelMessage}")
-                Error = True
                 return
+
+    #checking that hlt instruction is present
     try:
         if instructions[-1] != 'hlt' or instructions[-1].split()[1] != 'hlt':
             print(f"Error in line {index+j+1}: hlt instruction missing")
@@ -135,8 +122,6 @@ def main():
             return
         
 
-        # if (validLabel):
-        #     pass
     for i in output:
         print(i)
 
