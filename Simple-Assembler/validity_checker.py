@@ -49,8 +49,11 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
                     return False, "Immediate value missing"
                 
                 try:
-                    if (int(instToken[i][1:])) > MAX_IMM_VALUE:
+                    intVal = (int(instToken[i][1:]))
+                    if intVal > MAX_IMM_VALUE:
                         return False, "Immediate value greater than memory size"
+                    elif intVal < 0:
+                        return False, "Immediate value less than 0"
                 except ValueError:
                     return False, "Immediate value must be an integer"
 
