@@ -32,8 +32,11 @@ def type_d(ins:str, variables:list)->str:
     ins = ins.split()
     #define a key
     a_key = ins[2]
-    list_of_values = [a_dict.get(a_key) for a_dict in variables]
-    mem_addr = '{0:08b}'.format(int(list_of_values[0]))
+    address = 0
+    for i in variables:
+        if a_key in i:
+            address = i[a_key]
+    mem_addr = '{0:08b}'.format(int(address))
     op = opcodes["type-d"][ins[0]]
     r1 = register_addr[ins[1]]
     #addr = (ins[2])
@@ -62,4 +65,4 @@ def returnBinary(inst:str, variables:list, memory:dict) -> str:
     if type == "f":     return type_f(inst)
 
 if __name__ == "__main__":
-    print(returnBinary("hlt",[{"X":"5"}], {}))
+    print(returnBinary("ld R2 abc",[{"xyz": 8, "abc": 9}], {}))

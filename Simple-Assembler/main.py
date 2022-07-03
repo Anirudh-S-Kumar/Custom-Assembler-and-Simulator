@@ -52,6 +52,7 @@ def main():
 
     #parsing for labels
     for index, inst in enumerate(instructions[j:]):
+        
         if helpers.overflow(index+j):
             print(helpers.overflow(index+j))
             return
@@ -67,7 +68,7 @@ def main():
 
     # main loop for generating binary code
     for index, inst in enumerate(instructions[j:]):
-
+        
         validInst, instMessage = isValidInstr(inst, variables=variables, memory=mem_addr_vars)
         validLabel, labelMessage = isValidLabel(inst, variables=variables, memory=mem_addr_vars)
 
