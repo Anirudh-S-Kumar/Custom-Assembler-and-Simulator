@@ -48,8 +48,11 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
                 if instToken[i][0] != "$":
                     return False, "Immediate value missing"
                 
-                if (int(instToken[i][1:])) > MAX_IMM_VALUE:
-                    return False, "Immediate value greater than memory size"
+                try:
+                    if (int(instToken[i][1:])) > MAX_IMM_VALUE:
+                        return False, "Immediate value greater than memory size"
+                except ValueError:
+                    return False, "Immediate value must be an integer"
 
             elif j == "reg":
                 if not isRegister(instToken[i]):
