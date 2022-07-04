@@ -64,7 +64,7 @@ def inMemory(addr:str, memory:dict):
 
 def isValidName(var:str, variables:list, memory:dict) -> bool:
     """Returns True if the variable name is valid, and False otherwise"""
-    if inVars(vars, variables) or inMemory(var, memory=memory) or isInstruction(var) or isRegister(var) or not(isValidChars(var)):
+    if inVars(vars, variables) or inMemory(var, memory=memory) or isInstruction(var) or isRegister(var) or not(isValidChars(var)) or not(var):
         return False
     return True
 

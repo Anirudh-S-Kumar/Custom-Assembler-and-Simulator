@@ -78,7 +78,7 @@ def weakIsLabel(inst:str, variables:list, memory:dict) -> tuple:
 
     validName = isValidName(inst[0][:-1], variables, memory=memory)
     if not validName:
-        return False, "Label name cannot be an instruction, an already existing variable name or memory address"
+        return False, "Label name cannot be an instruction, an already existing variable name or memory address or empty"
     return True, ""
 
 
