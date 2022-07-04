@@ -114,7 +114,7 @@ def main():
 
     #checking that hlt instruction is present
     try:
-        if instructions[-1] != 'hlt' or instructions[-1].split()[1] != 'hlt':
+        if instructions[-1] != 'hlt' and instructions[-1].split()[1] != 'hlt':
             print(f"Error in line {index+j+1}: hlt instruction missing")
             return
     except IndexError:
@@ -132,3 +132,5 @@ main()
 
 # if Error:
 #     print("Program did not compile properly\n")
+
+# hlt or label: hlt
