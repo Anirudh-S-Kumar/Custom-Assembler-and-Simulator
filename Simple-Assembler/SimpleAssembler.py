@@ -40,9 +40,8 @@ def main():
                 print(f"Error found in line {j+1}: {name}")
                 return
             break
-
-    line_counter = len(instructions) - j
-    memory_add = line_counter+1
+    
+    memory_add = len(instructions) - j
 
     #assigning memory address to variables
     for i in variables:
@@ -125,12 +124,8 @@ def main():
 
     for i in output:
         print(i)
-
-
-main()
     
 
-# if Error:
-#     print("Program did not compile properly\n")
 
-# hlt or label: hlt
+if __name__ == "__main__":
+    main()
