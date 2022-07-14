@@ -69,12 +69,11 @@ def isValidName(var:str, variables:list, memory:dict) -> bool:
     return True
 
 def overflow(index:int) -> str:
-    """Return True if memory overflow has occured"""
+    """Return True if memory overflow has occurred"""
     if (index) > MAX_NO_OF_INSTRUCTIONS:
         return "Error : Memory overflow"
     return ""
 
 
 if __name__ == "__main__":
-    # print(isValidName("label", [], {}))
     print(inMemory("label", {'label': 7}))

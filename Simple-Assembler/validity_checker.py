@@ -1,6 +1,5 @@
 from all_constants import *
-from helpers import *
-from math import log2, floor
+from assembler_helpers import *
 
 def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
     """Return True if the instruction is a valid instruction, else returns false

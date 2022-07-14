@@ -1,5 +1,5 @@
 from all_constants import *
-from helpers import returnType
+from assembler_helpers import returnType
 
 
 def type_a(ins:str) -> str:
