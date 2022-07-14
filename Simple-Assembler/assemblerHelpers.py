@@ -1,4 +1,4 @@
-from all_constants import *
+from allConstants import *
 
 
 def isValidChars(val:str) -> bool:

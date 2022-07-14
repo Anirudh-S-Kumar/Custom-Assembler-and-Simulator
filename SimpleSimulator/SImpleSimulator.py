@@ -1,5 +1,5 @@
-from simulator_constants import *
-from exec_engine import exec_engine
+from simulatorConstants import *
+from execEngine import exec_engine
 
 # initializing program counter
 pc = 0

@@ -1,5 +1,5 @@
-from all_constants import *
-from assembler_helpers import *
+from allConstants import *
+from assemblerHelpers import *
 
 def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
     """Return True if the instruction is a valid instruction, else returns false

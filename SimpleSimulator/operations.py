@@ -1,4 +1,4 @@
-from simulator_helpers import getRegValue, setRegValue
+from simulatorHelpers import getRegValue, setRegValue
 
 # 10110 00 011 001 010
 

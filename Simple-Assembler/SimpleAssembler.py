@@ -1,7 +1,7 @@
-from all_constants import *
-from validity_checker import *
+from allConstants import *
+from validityChecker import *
 from generateBinary import returnBinary
-import assembler_helpers
+import assemblerHelpers
 
 # taking in the input from stdin
 instructions = []
@@ -32,7 +32,7 @@ def main():
             return
 
         #checking if it's a variable
-        isvar, name = assembler_helpers.isVar(inst, variables=variables, memory=mem_addr_vars)
+        isvar, name = assemblerHelpers.isVar(inst, variables=variables, memory=mem_addr_vars)
         if isvar:
             variables.append({name: 0})
         else:
@@ -52,8 +52,8 @@ def main():
     #parsing for labels
     for index, inst in enumerate(instructions[j:]):
         
-        if assembler_helpers.overflow(index+j):
-            print(assembler_helpers.overflow(index+j))
+        if assemblerHelpers.overflow(index+j):
+            print(assemblerHelpers.overflow(index+j))
             return
         
         if (weakIsLabel(inst, variables=variables, memory=mem_addr_vars))[0]:
@@ -72,8 +72,8 @@ def main():
         validLabel, labelMessage = isValidLabel(inst, variables=variables, memory=mem_addr_vars)
 
         #overflow condition
-        if assembler_helpers.overflow(index+j):
-            print(assembler_helpers.overflow(index+j))
+        if assemblerHelpers.overflow(index+j):
+            print(assemblerHelpers.overflow(index+j))
             return
 
         # If there is some variable declaration after all the variables have been declared at the top
@@ -88,7 +88,7 @@ def main():
             output.append(returnBinary(tempInst, variables=variables, memory=mem_addr_vars))
 
             #making sure last instruction is always hlt
-            if assembler_helpers.returnType(tempInst) == "f":
+            if assemblerHelpers.returnType(tempInst) == "f":
                 if (index+j+1) != len(instructions):
                     print(f"Error found in line {index+j+2}: Instructions after hlt are invalid")
                     return
@@ -96,7 +96,7 @@ def main():
         
         if validInst:
             output.append(returnBinary(inst, variables=variables, memory=mem_addr_vars))
-            if assembler_helpers.returnType(inst) == "f":
+            if assemblerHelpers.returnType(inst) == "f":
                 if (index+j+1) != len(instructions):
                     print(f"Error found in line {index+j+2}: Instructions after hlt are invalid")
                     return
