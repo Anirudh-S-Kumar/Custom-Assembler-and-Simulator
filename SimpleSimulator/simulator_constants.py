@@ -11,3 +11,12 @@ register = {}
 
 for i in register_addr:
     register[register_addr[i]] = {i : 0}
+
+# initializing memory
+memory = []
+
+for i in range(256):
+    memory.append("0" * 16)
+
+if __name__ == "__main__":
+    print(*memory)
