@@ -18,5 +18,16 @@ memory = []
 for i in range(256):
     memory.append("0" * 16)
 
+# mapping from opcodes to instructions
+opcodesToInst = {}
+
+for i in opcodes:
+    temp = opcodes[i]
+    for j in temp:
+        opcodesToInst[temp[j]] = j
+
+
 if __name__ == "__main__":
-    print(*memory)
+    # print(*memory)
+    for i in (opcodesToInst):
+        print(i, opcodesToInst[i])
