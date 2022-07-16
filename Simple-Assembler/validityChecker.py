@@ -77,7 +77,7 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
         # except:
         #     return False, "Something went terribly wrong. Should check up on that"
 
-    #return True, "" # returning true with an empty string if all checks pass
+    return True, "" # returning true with an empty string if all checks pass
 
 def weakIsLabel(inst:str, variables:list, memory:dict) -> tuple:
     """A weaker version of the isValidLabel instruction"""
@@ -124,7 +124,8 @@ def main():
     """For Testing only"""
     variables = [{"abc": 10, "asdwe": 11, "asdawd":12}]
     memory = {'label': 7}
-    print(isValidLabel("label: hlt", variables=variables, memory=memory))
+    print(isValidInstr("movf R2 $1.5", variables=variables, memory=memory))
+
 
 
 if __name__ == "__main__":

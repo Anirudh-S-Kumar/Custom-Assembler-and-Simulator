@@ -1,4 +1,5 @@
 from allConstants import *
+from math import log2, floor
 
 def getFractional(num: float) -> float:
     """Return fractional part of num"""  
@@ -36,7 +37,18 @@ def isNumber(num: str)->bool:
     except ValueError as e: # not convertible to float
         return False
 
+def convertToFloatingPoint(num: float) -> str:
+    """Returns the floating point representation of num"""
+    exponent = floor(log2(num))
+    fractional10 = (num / 2**exponent) - 1
+    fractional2 = ""
+    for i in range(5):
+        fractional10*=2
+        f_bit = (int(fractional10))
+        fractional10-=f_bit
+        fractional2+=str(f_bit)
 
+    return '{0:03b}'.format(exponent) + fractional2
 
 def isValidChars(val:str) -> bool:
     "Returns True if all the characters in the string are a subset of valid characters"
@@ -113,4 +125,4 @@ def overflow(index:int) -> str:
 
 
 if __name__ == "__main__":
-    print(inMemory("label", {'label': 7}))
+    print(convertToFloatingPoint(1.5))
