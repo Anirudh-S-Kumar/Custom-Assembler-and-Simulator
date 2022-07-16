@@ -13,14 +13,14 @@ def typeA(ins:str) -> str:
     return (op + "00" + r1 + r2 + r3)
 
 
-    '''def type_b(ins:str) ->str:  #modifying type b instruction as immediate value is present here only
-        ins = ins.split()
-        op = opcodes["type-b"][ins[0]]
-        r1 = register_addr[ins[1]]
-        
-        imm = '{0:08b}'.format(int(ins[2][1:]))
-        return (op+r1+imm)'''
-def type_b(ins:str) ->str:  #modifying type b instruction as immediate value is present here only
+def typeB(ins:str) ->str:
+    ins = ins.split()
+    op = opcodes["type-b"][ins[0]]
+    r1 = register_addr[ins[1]]
+    imm = '{0:08b}'.format(int(ins[2][1:]))
+    return (op+r1+imm)
+
+def typeB(ins:str) ->str:  #modifying type b instruction as immediate value is present here only
     ins = ins.split()
     op = opcodes["type-b"][ins[0]]
     r1 = register_addr[ins[1]]
