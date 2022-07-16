@@ -1,5 +1,42 @@
 from allConstants import *
 
+def getFractional(num: float) -> float:
+    """Return fractional part of num"""  
+    return num-int(num)
+
+
+def exponentCount(num: float) -> int:
+    return len(str(num).split(".")[1])
+
+
+def validFloat(num: float) ->bool:
+    val = getFractional(num)*(10**exponentCount(num))
+    if val%(5**exponentCount(num))==0:
+        return True
+    else:
+        return False
+
+
+def validRange(num: float) -> bool:
+    if 1<=num<=252:
+        return True
+    else:
+        return False
+
+
+def isNumber(num: str)->bool:
+    """
+    Takes a string and checks if it's a number (Integer or Float).
+
+    """    
+    try:
+        # only integers and float converts safely
+        num = float(num)
+        return True
+    except ValueError as e: # not convertible to float
+        return False
+
+
 
 def isValidChars(val:str) -> bool:
     "Returns True if all the characters in the string are a subset of valid characters"
