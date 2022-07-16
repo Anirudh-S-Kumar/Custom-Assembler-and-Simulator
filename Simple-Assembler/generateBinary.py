@@ -1,5 +1,5 @@
 from allConstants import *
-from assemblerHelpers import returnType
+from assemblerHelpers import returnType, convertToFloatingPoint
 
 
 def typeA(ins:str) -> str:
@@ -12,12 +12,26 @@ def typeA(ins:str) -> str:
 
     return (op + "00" + r1 + r2 + r3)
 
+
 def typeB(ins:str) ->str:
     ins = ins.split()
     op = opcodes["type-b"][ins[0]]
     r1 = register_addr[ins[1]]
     imm = '{0:08b}'.format(int(ins[2][1:]))
     return (op+r1+imm)
+
+def typeB(ins:str) ->str:  #modifying type b instruction as immediate value is present here only
+    ins = ins.split()
+    op = opcodes["type-b"][ins[0]]
+    r1 = register_addr[ins[1]]
+    imm10 = ins[2][1:]
+    if ins[0] == "movf":
+        imm = convertToFloatingPoint(float(imm10))
+    else:
+        imm = '{0:08b}'.format(int(imm10))
+
+    return (op+r1+imm)
+
 
 
 def typeC(ins:str) ->str:
@@ -65,4 +79,4 @@ def returnBinary(inst:str, variables:list, memory:dict) -> str:
     if type == "f":     return typeF(inst)
 
 if __name__ == "__main__":
-    print(returnBinary("ld R2 abc",[{"xyz": 8, "abc": 9}], {}))
+    print(returnBinary("movf R2 $1.5",[{"xyz": 8, "abc": 9}], {}))

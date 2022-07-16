@@ -1,6 +1,8 @@
 from allConstants import *
 from assemblerHelpers import *
 
+
+
 def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
     """Return True if the instruction is a valid instruction, else returns false
     
@@ -13,7 +15,7 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
     memory : dict
         list of labels defined in the program
     """
-    
+    intcount = 0
     instToken = inst.split()
     validIns = isInstruction(instToken[0])
     if not (validIns): # Returning false if Instruction is not a valid instruction
@@ -41,20 +43,28 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
                 elif type == "e":
                     if not inMemory(instToken[i], memory):
                         return False, f"'{instToken[i]}' label used is not defined"
-
-
+            
             elif j == "immediate":
                 if instToken[i][0] != "$":
                     return False, "Immediate value missing"
                 
-                try:
-                    intVal = (int(instToken[i][1:]))
-                    if intVal > MAX_IMM_VALUE:
-                        return False, "Immediate value greater than memory size"
-                    elif intVal < 0:
-                        return False, "Immediate value less than 0"
-                except ValueError:
-                    return False, "Immediate value must be an integer"
+                num = instToken[i][1:]
+
+                if not (isNumber(num)):
+                    return False, "Not a valid number"
+
+                num = float(num)
+
+                if not 0 <= num < 256:
+                    return False, "Immediate value must be between 0 and 255"
+
+                if instToken[0] == "mov":
+                    if not(getFractional(num) == 0):
+                        return False, "Immediate value must be an integer"
+                
+                elif instToken[0] == 'movf':
+                    if not validFloat(num):
+                        return False, "Immediate value can't be represented as per the ISA specifications"
 
             elif j == "reg":
                 if not isRegister(instToken[i]):
@@ -114,7 +124,8 @@ def main():
     """For Testing only"""
     variables = [{"abc": 10, "asdwe": 11, "asdawd":12}]
     memory = {'label': 7}
-    print(isValidLabel("label: hlt", variables=variables, memory=memory))
+    print(isValidInstr("movf R2 $1.5", variables=variables, memory=memory))
+
 
 
 if __name__ == "__main__":
