@@ -1,36 +1,7 @@
 from all_constants import *
 from assembler_helpers import *
 
-def getexponents(num: float) -> float:  
-    return num-int(num)
 
-def exponentcount(num: float) -> int:
-     return len(str(num).split(".")[1])
-
-def validfloat(num: float) ->bool:
-    val = getexponents(num)*(10**exponentcount(num))
-    if val%(5**exponentcount(num))==0:
-        return True
-    else:
-        return False
-
-def validrange(num: float) -> bool:
-    if 1<=num<=252:
-        return True
-    else:
-        return False
-
-
-def is_number(inst: str)->bool:
-    '''
-            Takes a word and checks if Number (Integer or Float).
-    '''
-    try:
-            # only integers and float converts safely
-        num = float(inst)
-        return True
-    except ValueError as e: # not convertable to float
-        return False
 
 def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
     """Return True if the instruction is a valid instruction, else returns false
