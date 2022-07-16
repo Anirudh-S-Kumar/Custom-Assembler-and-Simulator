@@ -1,5 +1,36 @@
-from allConstants import *
-from assemblerHelpers import *
+from all_constants import *
+from assembler_helpers import *
+
+def getexponents(num: float) -> float:  
+    return num-int(num)
+
+def exponentcount(num: float) -> int:
+     return len(str(num).split(".")[1])
+
+def validfloat(num: float) ->bool:
+    val = getexponents(num)*(10**exponentcount(num))
+    if val%(5**exponentcount(num))==0:
+        return True
+    else:
+        return False
+
+def validrange(num: float) -> bool:
+    if 1<=num<=252:
+        return True
+    else:
+        return False
+
+
+def is_number(inst: str)->bool:
+    '''
+            Takes a word and checks if Number (Integer or Float).
+    '''
+    try:
+            # only integers and float converts safely
+        num = float(inst)
+        return True
+    except ValueError as e: # not convertable to float
+        return False
 
 def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
     """Return True if the instruction is a valid instruction, else returns false
@@ -13,7 +44,7 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
     memory : dict
         list of labels defined in the program
     """
-    
+    intcount = 0
     instToken = inst.split()
     validIns = isInstruction(instToken[0])
     if not (validIns): # Returning false if Instruction is not a valid instruction
@@ -43,18 +74,34 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
                         return False, f"'{instToken[i]}' label used is not defined"
 
 
+                '''elif j == "immediate":
+                    if instToken[i][0] != "$":
+                        return False, "Immediate value missing"
+                    
+                    try:
+                        intVal = (int(instToken[i][1:]))
+                        if intVal > MAX_IMM_VALUE:
+                            return False, "Immediate value greater than memory size"
+                        elif intVal < 0:
+                            return False, "Immediate value less than 0"
+                    except ValueError:
+                        return False, "Immediate value must be an integer'''
+            
             elif j == "immediate":
                 if instToken[i][0] != "$":
                     return False, "Immediate value missing"
-                
-                try:
-                    intVal = (int(instToken[i][1:]))
-                    if intVal > MAX_IMM_VALUE:
-                        return False, "Immediate value greater than memory size"
-                    elif intVal < 0:
-                        return False, "Immediate value less than 0"
-                except ValueError:
-                    return False, "Immediate value must be an integer"
+
+                Val = float(instToken[i][1:])
+
+                if Val > MAX_IMM_VALUE:
+                    return False, "Immediate value greater than memory size"
+                elif Val < 0:
+                    return False, "Immediate value less than 0"
+                if instToken[i][1:].isdigit()and(is_number=1): #is_number defined in floating checker file
+                    intcount = 1
+                    return True, intcount
+                elif (instToken[i][1:].isdigit()!=True)and(is_number=1): #if number is not an integer but its a number then it should be float only
+                    return True, intcount
 
             elif j == "reg":
                 if not isRegister(instToken[i]):
@@ -67,7 +114,7 @@ def isValidInstr(inst: str, variables: list, memory:dict) -> tuple:
         # except:
         #     return False, "Something went terribly wrong. Should check up on that"
 
-    return True, "" # returning true with an empty string if all checks pass
+    #return True, "" # returning true with an empty string if all checks pass
 
 def weakIsLabel(inst:str, variables:list, memory:dict) -> tuple:
     """A weaker version of the isValidLabel instruction"""
