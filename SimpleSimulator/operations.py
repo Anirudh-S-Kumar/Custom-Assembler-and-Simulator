@@ -4,12 +4,13 @@ from operationHelpers import *
 # 10110 00 011 001 010
 
 # Make sure to raise flags incase of underflow and overflow
-def add(inst: str) -> None:
+# All functions will return updated program counter
+def add(inst: str, pc: int) -> int:
     reg1_value, reg2_value = typeA(inst)
     reg3_value = reg2_value + reg1_value
     overflowFlag(reg3_value)
     setRegValue(reg3_value, inst[13:])
-
+    return pc+1
 
 def sub(inst: str) -> None:
     pass
