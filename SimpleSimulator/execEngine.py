@@ -1,11 +1,6 @@
 import operations
 from simulatorHelpers import getRegValue
 
-
-
-
-
-
 def execEngine(inst: str, pc:int) -> tuple:
     """
     Will perform all the computations necessary for the given instructions, and return a tuple
