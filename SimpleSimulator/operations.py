@@ -13,27 +13,38 @@ def add(inst: str, pc: int) -> int:
     return pc+1
 
 def sub(inst: str, pc:int) -> int:
-    pass
+    reg1_value, reg2_value = typeA(inst)
+    reg3_value = reg2_value - reg1_value
+    overflowFlag(reg3_value)
+    setRegValue(reg3_value, inst[13:])
+    return pc+1
 
 def mov(inst: str, pc:int) -> int:
     reg1_value, ImmVal = typeB(inst)
     setRegValue(ImmVal, inst[5:8])
-    return pc+1
-
-def movr(inst: str, pc:int) -> int:
-    pass
+    return pc+1  # there are two types of mov instructions, type B and type C
 
 def ld(inst: str, pc:int) -> int:
-    pass
+    reg1_value, mem_addr = typeD(inst)
+    setRegValue(reg1_value, inst[5:8])
+    return pc+1
 
 def st(inst: str, pc:int) -> int:
     pass
 
 def mul(inst: str, pc:int) -> int:
-    pass
+    reg1_value, reg2_value = typeA(inst)
+    reg3_value = reg2_value * reg1_value
+    overflowFlag(reg3_value)
+    setRegValue(reg3_value, inst[13:])
+    return pc+1
 
 def div(inst: str, pc:int) -> int:
-    pass
+    reg1_value, reg2_value = typeA(inst)
+    reg3_value = reg2_value / reg1_value
+    overflowFlag(reg3_value)
+    setRegValue(reg3_value, inst[13:])
+    return pc+1
 
 def rs(inst: str, pc:int) -> int:
     pass
@@ -90,7 +101,7 @@ mapping = {
     '11100' : and1  ,
     '00000' : addf  ,
     '00001' : subf  ,
-    '10010' : movr  ,
+    '10010' : mov   ,
     '11000' : rs    ,
     '11001' : ls    ,
     '00010' : movf  ,
