@@ -29,5 +29,5 @@ for i in opcodes:
 
 if __name__ == "__main__":
     # print(*memory)
-    for i in (opcodesToInst):
-        print(i, opcodesToInst[i])
+    for i in register:
+        print(i, register[i])

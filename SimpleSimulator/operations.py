@@ -15,8 +15,10 @@ def add(inst: str, pc: int) -> int:
 def sub(inst: str) -> None:
     pass
 
-def mov(inst: str) -> None:
-    pass
+def mov(inst: str, pc:int) -> int:
+    reg1_value, ImmVal = typeB(inst)
+    setRegValue(ImmVal, inst[5:8])
+    return pc+1
 
 def ld(inst: str) -> None:
     pass
