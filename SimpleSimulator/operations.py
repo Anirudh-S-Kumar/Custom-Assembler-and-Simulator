@@ -20,6 +20,9 @@ def mov(inst: str, pc:int) -> int:
     setRegValue(ImmVal, inst[5:8])
     return pc+1
 
+def movr(inst: str, pc:int) -> int:
+    pass
+
 def ld(inst: str, pc:int) -> int:
     pass
 
@@ -87,7 +90,7 @@ mapping = {
     '11100' : and1  ,
     '00000' : addf  ,
     '00001' : subf  ,
-    '10010' : mov   ,
+    '10010' : movr  ,
     '11000' : rs    ,
     '11001' : ls    ,
     '00010' : movf  ,
