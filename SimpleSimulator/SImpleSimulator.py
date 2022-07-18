@@ -1,9 +1,9 @@
 from simulatorConstants import *
-from execEngine import exec_engine
+from simulatorHelpers import dumpRegs, base2Bit8, memoryDump
+from execEngine import executionEngine
 
 # initializing program counter
 pc = 0
-halted = False
 
 # getting binaries from stdin
 while True:
@@ -12,14 +12,18 @@ while True:
         memory[pc] = temp
         pc+=1
     except EOFError:
-        pc = 0  # resetting pc to 0
         break
 
 def main():
+    halted = False
+    pc = 0
     while not halted:
         inst = memory[pc]
-        halted, pc = exec_engine(inst)
+        pcBase2 = base2Bit8(pc)
+        print(pcBase2, end = " ")
+        halted, pc = executionEngine(inst, pc)
+        dumpRegs()
+    # memoryDump()
 
-
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+main()

@@ -12,7 +12,7 @@ def add(inst: str, pc: int) -> int:
     setRegValue(reg3_value, inst[13:])
     return pc+1
 
-def sub(inst: str) -> None:
+def sub(inst: str, pc:int) -> int:
     pass
 
 def mov(inst: str, pc:int) -> int:
@@ -20,61 +20,61 @@ def mov(inst: str, pc:int) -> int:
     setRegValue(ImmVal, inst[5:8])
     return pc+1
 
-def ld(inst: str) -> None:
+def ld(inst: str, pc:int) -> int:
     pass
 
-def st(inst: str) -> None:
+def st(inst: str, pc:int) -> int:
     pass
 
-def mul(inst: str) -> None:
+def mul(inst: str, pc:int) -> int:
     pass
 
-def div(inst: str) -> None:
+def div(inst: str, pc:int) -> int:
     pass
 
-def rs(inst: str) -> None:
+def rs(inst: str, pc:int) -> int:
     pass
 
-def ls(inst: str) -> None:
+def ls(inst: str, pc:int) -> int:
     pass
 
-def xor(inst: str) -> None:
+def xor(inst: str, pc:int) -> int:
     pass
 
-def or1(inst: str) -> None:
+def or1(inst: str, pc:int) -> int:
     pass
 
-def and1(inst: str) -> None:
+def and1(inst: str, pc:int) -> int:
     pass
 
-def not1(inst: str) -> None:
+def not1(inst: str, pc:int) -> int:
     pass
 
-def cmp(inst: str) -> None:
+def cmp(inst: str, pc:int) -> int:
     pass
 
-def jmp(inst: str) -> None:
+def jmp(inst: str, pc:int) -> int:
     pass
 
-def jlt(inst: str) -> None:
+def jlt(inst: str, pc:int) -> int:
     pass
 
-def jgt(inst: str) -> None:
+def jgt(inst: str, pc:int) -> int:
     pass
 
-def je(inst: str) -> None:
+def je(inst: str, pc:int) -> int:
     pass
 
-def hlt(inst: str) -> None:
+def hlt(inst: str, pc:int) -> int:
+    return pc+1
+
+def addf(inst: str) -> int:
     pass
 
-def addf(inst: str) -> None:
+def subf(inst: str) -> int:
     pass
 
-def subf(inst: str) -> None:
-    pass
-
-def movf(inst: str) -> None:
+def movf(inst: str) -> int:
     pass
 
 

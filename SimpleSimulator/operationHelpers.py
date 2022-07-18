@@ -17,6 +17,6 @@ def typeB(inst: str) -> tuple:
     For type B, will return the tuple (reg1, Immediate values)
     """
     reg1_value = getRegValue(inst[5:8])
-    Imm = getImm(inst[8:])
+    Imm = getDecimal(inst[8:])
 
     return (reg1_value, Imm)
