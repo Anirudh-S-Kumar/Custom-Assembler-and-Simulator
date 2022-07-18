@@ -18,6 +18,17 @@ def setRegValue(value: int, address: str) -> None:
     key = list(internalDict.keys())[0]
     internalDict[key] = value
 
+def getImm(value:str) -> int:
+    """
+    Returns the base 10 value of the immediate value
+    For now, the value is assumed to be in unsigned base 2 
+    """
+    rval = 0
+    for i in range(8):
+        rval+=int(value[i]) * (2 ** (7-i))
+    
+    return rval
+
 def resetFlags() -> None:
     setRegValue(0, "111")
 
@@ -39,10 +50,21 @@ def comparisonFlag(reg1: int, reg2: int) -> None:
 
     setRegValue(flag, "111")            
 
+def base2(value:int) -> str:
+    return "{0:08b}".format(value)
 
+def dumpRegs():
+    """
+    Prints the values of all the registers in base 2
+    """
+    for i in register:
+        temp = getRegValue(i)
+        # temp = base2(temp)
+        print(temp, end = " ")
+    print()
 
 def main():
-    overflowFlag(1111)
+    dumpRegs()
 
 if __name__ == "__main__":
     main()
