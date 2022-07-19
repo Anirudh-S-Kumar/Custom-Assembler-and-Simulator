@@ -31,7 +31,7 @@ def typeC(inst: str) -> tuple:
     return (reg1_value, reg2_value)
 
 def typeD(inst: str) -> tuple:
-    """Returns tuple of values to be used by all type A instructions
+    """Returns tuple of values to be used by all type D instructions
     For type D, will return the tuple (reg1, memory address)
     """
     reg1_value = getRegValue(inst[5:8])
@@ -40,7 +40,7 @@ def typeD(inst: str) -> tuple:
     return (reg1_value, mem_addr)
 
 def typeE(inst: str) -> tuple:
-    """Returns tuple of values to be used by all type A instructions
+    """Returns tuple of values to be used by all type D instructions
     For type E, will return the tuple (memory address)
     """
 

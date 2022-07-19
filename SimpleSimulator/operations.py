@@ -27,11 +27,24 @@ def mov(inst: str, pc:int) -> int:
 
 def ld(inst: str, pc:int) -> int:
     reg1_value, mem_addr = typeD(inst)
-    setRegValue(reg1_value, inst[5:8])
+    ldValue = getDecimal(memory[mem_addr])
+    setRegValue(ldValue, inst[5:8])
+
+    globalTime.append(time)
+    memoryAddLocation(mem_addr)
+    time+=1
+
     return pc+1
 
 def st(inst: str, pc:int) -> int:
-    pass
+    reg1_value, mem_addr = typeD(inst)
+    memory[mem_addr] = reg1_value 
+
+    globalTime.append(time)
+    memoryAddLocation(mem_addr)
+    time+=1
+
+    return pc+1
 
 def mul(inst: str, pc:int) -> int:
     reg1_value, reg2_value = typeA(inst)
