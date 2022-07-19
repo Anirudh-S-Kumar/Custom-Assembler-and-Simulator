@@ -26,7 +26,9 @@ for i in opcodes:
     for j in temp:
         opcodesToInst[temp[j]] = j
 
-
+memoryAddLocation = [] # stores the corresponding location of memory being accessed at given time
+globalTime = []    # stores time intervals to be plotted
+time = 0
 if __name__ == "__main__":
     # print(*memory)
     for i in register:

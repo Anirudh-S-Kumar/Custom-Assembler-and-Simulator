@@ -1,4 +1,5 @@
 from simulatorHelpers import *
+from simulatorConstants import globalTime, time, memoryAddLocation
 from operationHelpers import *
 
 # 10110 00 011 001 010
