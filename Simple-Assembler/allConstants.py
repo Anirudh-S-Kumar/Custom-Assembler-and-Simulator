@@ -4,6 +4,10 @@ will be extracted and stored in python for ease of access"""
 import json
 import pprint
 import string
+import os
+
+# Absolute path of the current working directory
+abs_path = os.path.split(os.getcwd())[0] + "/CO_Project/" 
 
 validChars = set(string.ascii_letters + string.digits + "_")
 # Defining the dictionaries
@@ -20,9 +24,12 @@ terms = no_of_register = {}
 unused_bits = memory_bits = {}
 immediate_values = register_addr = {}
 
+MAX_IMM_VALUE = 2**8 - 1
+MAX_NO_OF_INSTRUCTIONS = 2**8
+
 
 #Extracting data from them
-with open("ISA_Instructions.json") as f:
+with open(abs_path + "Simple-Assembler/ISA_Instructions.json") as f:
     temp = json.load(f)["opcode"]
 
     for i in temp:
@@ -33,7 +40,7 @@ with open("ISA_Instructions.json") as f:
         elif i[2] == "e":   opcodes["type-e"][i[0]] = i[1]
         elif i[2] == "f":   opcodes["type-f"][i[0]] = i[1]
 
-with open("other_constants.json") as f:
+with open(abs_path + "Simple-Assembler/other_constants.json") as f:
     temp = json.load(f)
     terms = temp["terms"]
     no_of_register = temp["no_of_registers"]
@@ -43,10 +50,13 @@ with open("other_constants.json") as f:
     register_addr = temp["register_addr"]
     type_structure = temp["type_structure"]
 
+
+
 # For testing
 def main():
     pprint.pprint(opcodes, width=1)
     # print((opcodes.keys()))
 
 if __name__ == "__main__":
-    main()
+    pprint.pprint(opcodes, width=1)
+    # print(opcodes)
