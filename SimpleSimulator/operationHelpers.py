@@ -21,6 +21,7 @@ def typeB(inst: str) -> tuple:
 
     return (reg1_value, Imm)
 
+
 def typeC(inst: str) -> tuple:
     """Returns tuple of values to be used by all type C instructions
     For type C, will return the tuple (reg1, reg2)

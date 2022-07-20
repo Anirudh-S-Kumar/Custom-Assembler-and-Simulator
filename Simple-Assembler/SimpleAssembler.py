@@ -114,11 +114,11 @@ def main():
     #checking that hlt instruction is present
     try:
         if instructions[-1] != 'hlt' and instructions[-1].split()[1] != 'hlt':
-            print(f"Error in line {index+j+1}: hlt instruction missing")
+            print(f"Error found in line {index+j+1}: hlt instruction missing")
             return
     except IndexError:
         if instructions[-1] != 'hlt':
-            print(f"Error in line {index+j+1}: hlt instruction missing")
+            print(f"Error found in line {index+j+1}: hlt instruction missing")
             return
         
 
