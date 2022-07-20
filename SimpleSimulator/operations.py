@@ -92,11 +92,13 @@ def not1(inst: str, pc:int) -> int:
 def cmp(inst: str, pc:int) -> int:
     reg1_value, reg2_value = typeC(inst)
     reg2_value == reg1_value
-    setRegValue(reg2_value, inst[13:])
+    comparisonFlag(reg1_value, reg2_value)
     return pc+1
 
 def jmp(inst: str, pc:int) -> int:
-    pass
+    reg1_value = typeE(inst) # taken the decimal value of memory address
+    pc = reg1_value # updated the pc with decimal value
+    return pc
 
 def jlt(inst: str, pc:int) -> int:
     pass
@@ -111,13 +113,26 @@ def hlt(inst: str, pc:int) -> int:
     return pc+1
 
 def addf(inst: str) -> int:
-    pass
+    reg1_value, reg2_value = typeA(inst)
+    reg3_value = reg2_value + reg1_value
+    overflowFlag(reg3_value)
+    setRegValue(reg3_value, inst[13:])
+    return pc+1
 
 def subf(inst: str) -> int:
-    pass
+    reg1_value, reg2_value = typeA(inst)
+    if (reg2_value > reg1_value):
+        reg3_value = 0
+    else:
+        reg3_value = reg1_value - reg2_value
+    overflowFlag(reg3_value)
+    setRegValue(reg3_value, inst[13:])
+    return pc+1
 
 def movf(inst: str) -> int:
-    pass
+    reg1_value, ImmVal = typeB(inst)
+    setRegValue(ImmVal, inst[5:8])
+    return pc+1
 
 
 mapping = {
