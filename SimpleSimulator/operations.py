@@ -1,4 +1,5 @@
 from simulatorHelpers import *
+from simulatorConstants import globalTime, time, memoryAddLocation
 from operationHelpers import *
 
 # 10110 00 011 001 010
@@ -31,12 +32,23 @@ def movr(inst: str, pc:int) -> int:
 
 def ld(inst: str, pc:int) -> int:
     reg1_value, mem_addr = typeD(inst)
-    setRegValue(reg1_value, inst[5:8])
+    ldValue = getDecimal(memory[mem_addr])
+    setRegValue(ldValue, inst[5:8])
+
+    globalTime.append(time)
+    memoryAddLocation(mem_addr)
+    time+=1
+
     return pc+1
 
 def st(inst: str, pc:int) -> int:
     reg1_value, mem_addr = typeD(inst)
-    setRegValue(reg1_value, inst[5:8])
+    memory[mem_addr] = reg1_value 
+
+    globalTime.append(time)
+    memoryAddLocation(mem_addr)
+    time+=1
+
     return pc+1
 
 def mul(inst: str, pc:int) -> int:

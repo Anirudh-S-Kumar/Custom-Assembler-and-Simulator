@@ -18,6 +18,9 @@ def main():
     halted = False
     pc = 0
     while not halted:
+        globalTime.append(time)
+        memoryAddLocation.append(pc)
+        time+=1
         inst = memory[pc]
         pcBase2 = base2Bit8(pc)
         print(pcBase2, end = " ")
