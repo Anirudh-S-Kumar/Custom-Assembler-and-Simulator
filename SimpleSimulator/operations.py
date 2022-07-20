@@ -24,13 +24,20 @@ def mov(inst: str, pc:int) -> int:
     setRegValue(ImmVal, inst[5:8])
     return pc+1  # there are two types of mov instructions, type B and type C
 
+def movr(inst: str, pc:int) -> int:
+    reg1_value, reg2_value = typeC(inst)
+    setRegValue(reg2_value, inst[10:13])
+    return pc+1
+
 def ld(inst: str, pc:int) -> int:
     reg1_value, mem_addr = typeD(inst)
     setRegValue(reg1_value, inst[5:8])
     return pc+1
 
 def st(inst: str, pc:int) -> int:
-    pass
+    reg1_value, mem_addr = typeD(inst)
+    setRegValue(reg1_value, inst[5:8])
+    return pc+1
 
 def mul(inst: str, pc:int) -> int:
     reg1_value, reg2_value = typeA(inst)
@@ -40,32 +47,53 @@ def mul(inst: str, pc:int) -> int:
     return pc+1
 
 def div(inst: str, pc:int) -> int:
+    reg3_value, reg4_value = typeC(inst)
+    reg0_value = reg3_value // reg4_value
+    reg1_value = reg3_value % reg4_value
+    setRegValue(reg0_value, inst[10:13])
+    setRegValue(reg1_value, inst[13:])
+
+def rs(inst: str, pc:int) -> int:
+    reg1_value, ImmVal = typeB(inst)
+    reg1_value = reg1_value >> ImmVal
+    setRegValue(reg1_value, inst[5:8])
+    return pc+1
+
+def ls(inst: str, pc:int) -> int:
+    reg1_value, ImmVal = typeB(inst)
+    reg1_value = reg1_value << ImmVal
+    setRegValue(reg1_value, inst[5:8])
+    return pc+1
+
+def xor(inst: str, pc:int) -> int:
     reg1_value, reg2_value = typeA(inst)
-    reg3_value = reg2_value / reg1_value
-    overflowFlag(reg3_value)
+    reg3_value = reg2_value ^ reg1_value
     setRegValue(reg3_value, inst[13:])
     return pc+1
 
-def rs(inst: str, pc:int) -> int:
-    pass
-
-def ls(inst: str, pc:int) -> int:
-    pass
-
-def xor(inst: str, pc:int) -> int:
-    pass
-
 def or1(inst: str, pc:int) -> int:
-    pass
+    reg1_value, reg2_value = typeA(inst)
+    reg3_value = reg2_value or reg1_value
+    setRegValue(reg3_value, inst[13:])
+    return pc+1
 
 def and1(inst: str, pc:int) -> int:
-    pass
+    reg1_value, reg2_value = typeA(inst)
+    reg3_value = reg2_value and reg1_value
+    setRegValue(reg3_value, inst[13:])
+    return pc+1
 
 def not1(inst: str, pc:int) -> int:
-    pass
+    reg1_value, reg2_value = typeC(inst)
+    reg2_value = ~ reg1_value
+    setRegValue(reg2_value, inst[13:])
+    return pc+1
 
 def cmp(inst: str, pc:int) -> int:
-    pass
+    reg1_value, reg2_value = typeC(inst)
+    reg2_value == reg1_value
+    setRegValue(reg2_value, inst[13:])
+    return pc+1
 
 def jmp(inst: str, pc:int) -> int:
     pass
@@ -101,7 +129,7 @@ mapping = {
     '11100' : and1  ,
     '00000' : addf  ,
     '00001' : subf  ,
-    '10010' : mov   ,
+    '10010' : movr  ,
     '11000' : rs    ,
     '11001' : ls    ,
     '00010' : movf  ,
