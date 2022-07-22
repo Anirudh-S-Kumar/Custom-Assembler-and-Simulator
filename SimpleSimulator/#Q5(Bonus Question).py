@@ -5,7 +5,16 @@ Dict = {'Bit addressable memory' : 1 ,'Nibble addressable memory' : 4, 'Byte add
 #Type 1
 #initial input
 memory_space = input()  
+#Type1 function
+def type1(memory_space,Dict):
+    a = int(memory_space[0])/8             #conversion to bytes
+    b = a/1024                       #conversion to KB
+    b = b/1024                       #conversion to MB  
+    b = b/1024
 
+    bitCPU = input() #Number of bits in CPU
+    bitCPU = bitCPU.split()
+    address_memory = input()   #enhanced addressable memory
 
 
 
