@@ -1,6 +1,7 @@
 #Q5(Bonus Question)
 
-Dict = {'Bit addressable memory' : 1 ,'Nibble addressable memory' : 4, 'Byte addressable memory' : 8} #In this dictionary Key is addressable memory and value is cell size.
+Dict = {'Bit addressable memory' : 1 ,'Nibble addressable memory' : 4, 'Byte addressable memory' : 8} 
+#In this dictionary Key is addressable memory and value is cell size.
 
 #Type 1
 #initial input
@@ -37,17 +38,3 @@ elif(address_memory == "Word addressable memory"):
 
     final_output = b*int(bitCPU[0])
     print(int(final_output),"GB")
-
-
-
-
-
-
-
-    
-        
-
-
-
-
-

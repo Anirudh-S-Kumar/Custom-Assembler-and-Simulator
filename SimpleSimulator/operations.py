@@ -124,14 +124,14 @@ def je(inst: str, pc:int) -> int:
 def hlt(inst: str, pc:int) -> int:
     return pc+1
 
-def addf(inst: str) -> int:
+def addf(inst: str, pc:int) -> int:
     reg1_value, reg2_value = typeA(inst)
     reg3_value = reg2_value + reg1_value
     overflowFlag(reg3_value)
     setRegValue(reg3_value, inst[13:])
     return pc+1
 
-def subf(inst: str) -> int:
+def subf(inst: str, pc:int) -> int:
     reg1_value, reg2_value = typeA(inst)
     if (reg2_value > reg1_value):
         reg3_value = 0
@@ -141,7 +141,7 @@ def subf(inst: str) -> int:
     setRegValue(reg3_value, inst[13:])
     return pc+1
 
-def movf(inst: str) -> int:
+def movf(inst: str, pc:int) -> int:
     reg1_value, ImmVal = typeB(inst)
     setRegValue(ImmVal, inst[5:8])
     return pc+1

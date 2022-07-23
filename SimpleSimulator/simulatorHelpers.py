@@ -21,12 +21,12 @@ def getDecimal(value:str) -> int:
     Returns the base 10 value of the immediate value
     For now, the value is assumed to be in unsigned base 2 
     """
-    rval = 0
-    n = len(value)
-    for i in range(n):
-        rval+=int(value[i]) * (2 ** (n-i))
+    # rval = 0
+    # n = len(value)
+    # for i in range(n):
+    #     rval+=int(value[i]) * (2 ** (n-i))
     
-    return rval
+    return int(value, base=2)
 
 def getVarValue(address: str) -> int:
     """
