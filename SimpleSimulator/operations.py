@@ -109,17 +109,33 @@ def cmp(inst: str, pc:int) -> int:
 
 def jmp(inst: str, pc:int) -> int:
     reg1_value = typeE(inst) # taken the decimal value of memory address
-    pc = reg1_value # updated the pc with decimal value
-    return pc
+    return reg1_value
 
 def jlt(inst: str, pc:int) -> int:
-    pass
+    mem_location = typeE(inst)
+    flag_base2 = base2Bit8(getRegValue("111"))
+    if flag_base2[-3] == '1':
+        # resetFlags()
+        return mem_location
+    return pc + 1
 
 def jgt(inst: str, pc:int) -> int:
-    pass
+    mem_location = typeE(inst)
+    flag_base2 = base2Bit8(getRegValue("111"))
+    if flag_base2[-2] == '1':
+        # resetFlags()
+        return mem_location
+    return pc + 1
+
 
 def je(inst: str, pc:int) -> int:
-    pass
+    mem_location = typeE(inst)
+    flag_base2 = base2Bit8(getRegValue("111"))
+    if flag_base2[-1]    == '1':
+        # resetFlags()
+        return mem_location
+    return pc + 1
+
 
 def hlt(inst: str, pc:int) -> int:
     return pc+1
