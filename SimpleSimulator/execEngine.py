@@ -1,6 +1,6 @@
 import operations
-from simulatorHelpers import getRegValue
-
+from simulatorHelpers import resetFlags
+from simulatorConstants import rFlag
 
 def executionEngine(inst: str, pc:int) -> tuple:
     """
@@ -8,9 +8,16 @@ def executionEngine(inst: str, pc:int) -> tuple:
     First value will be if the program has to be halted or not
     Second value will be new value of program counter
     """
+    rFlag = True
     halted = False
     opcode = inst[:5]
-    newPC = tuple(map(operations.mapping[opcode], [inst], [pc]))[0]
+    newPC, rFlag = tuple(map(operations.mapping[opcode], [inst], [pc]))[0]
+    # print(newPC, rFlag)
+    if rFlag:
+        # print("Flag being reset")
+        resetFlags()
+    else:
+        rFlag = True
 
     if opcode == "01010":
         halted = True

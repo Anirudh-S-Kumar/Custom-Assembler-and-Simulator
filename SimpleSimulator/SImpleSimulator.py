@@ -17,6 +17,7 @@ while True:
 def main():
     halted = False
     pc = 0
+    time = 0
     while not halted:
         globalTime.append(time)
         memoryAddLocation.append(pc)
@@ -26,6 +27,7 @@ def main():
         print(pcBase2, end = " ")
         halted, pc = executionEngine(inst, pc)
         dumpRegs()
+    
     # memoryDump()
 
 # if __name__ == "__main__":
