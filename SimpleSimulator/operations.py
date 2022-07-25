@@ -46,19 +46,17 @@ def ld(inst: str, pc:int) -> tuple:
     ldValue = getDecimal(memory[mem_addr])
     setRegValue(ldValue, inst[5:8])
 
-    globalTime.append(time)
-    memoryAddLocation(mem_addr)
-    time+=1
+    globalTime.append(globalTime[-1])
+    memoryAddLocation.append(mem_addr)
 
     return pc+1, True
 
 def st(inst: str, pc:int) -> tuple:
     reg1_value, mem_addr = typeD(inst)
-    memory[mem_addr] = reg1_value 
+    memory[mem_addr] = base2Bit16(reg1_value) 
 
-    globalTime.append(time)
-    memoryAddLocation(mem_addr)
-    time+=1
+    globalTime.append(globalTime[-1])
+    memoryAddLocation.append(mem_addr)
 
     return pc+1, True
 
@@ -104,19 +102,19 @@ def xor(inst: str, pc:int) -> tuple:
 
 def or1(inst: str, pc:int) -> tuple:
     reg1_value, reg2_value = typeA(inst)
-    reg3_value = reg2_value or reg1_value
+    reg3_value = reg2_value | reg1_value
     setRegValue(reg3_value, inst[13:])
     return pc+1, True
 
 def and1(inst: str, pc:int) -> tuple:
     reg1_value, reg2_value = typeA(inst)
-    reg3_value = reg2_value and reg1_value
+    reg3_value = reg2_value & reg1_value
     setRegValue(reg3_value, inst[13:])
     return pc+1, True
 
 def not1(inst: str, pc:int) -> tuple:
     reg1_value, reg2_value = typeC(inst)
-    reg2_value = ~ reg1_value
+    reg2_value = 2**16 - 1 - reg1_value
     setRegValue(reg2_value, inst[13:])
     return pc+1, True
 
