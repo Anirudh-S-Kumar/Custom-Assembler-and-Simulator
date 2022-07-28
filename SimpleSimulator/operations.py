@@ -159,21 +159,18 @@ def hlt(inst: str, pc:int) -> tuple:
     return pc+1, True
 
 def addf(inst: str, pc:int) -> tuple:
-    reg1_value, reg2_value = typeA(inst)
+    reg1_value, reg2_value = typeFloat(inst)
     reg3_value = reg2_value + reg1_value
-    if overflowFlag(reg3_value):
-        setRegValue(0, inst[13:])
+    if (setFracRegValue(reg3_value, inst[13:])):
         return pc+1, False
-    
-    setRegValue(reg3_value, inst[13:])
     return pc+1, True
 
 def subf(inst: str, pc:int) -> tuple:
-    reg1_value, reg2_value = typeA(inst)
-    reg3_value = reg1_value - reg2_value
-    if overflowFlag(reg3_value):
-        setRegValue(0, inst[13:])
+    reg1_value, reg2_value = typeFloat(inst)
+    reg3_value = reg2_value + reg1_value
+    if (setFracRegValue(reg3_value, inst[13:])):
         return pc+1, False
+    return pc+1, True
     
     setRegValue(reg3_value, inst[13:])
     return pc+1, True

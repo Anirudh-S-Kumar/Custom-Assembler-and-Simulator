@@ -48,3 +48,12 @@ def typeE(inst: str) -> int:
     mem_addr = getDecimal(inst[8:16])
 
     return mem_addr
+
+def typeFloat(inst: str) -> tuple:
+    """
+    Returns tuple of values to be used by all float instructions
+     will return a tuple of register values
+    """
+    reg1_value = getFracRegValue(inst[7:10])
+    reg2_value = getFracRegValue(inst[10:13])
+    return reg1_value, reg2_value

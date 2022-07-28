@@ -4,7 +4,24 @@ from simulatorConstants import register, memory, rFlag
 abs_path = os.path.split(os.getcwd())[0] + "/CO_Project/" 
 sys.path.append(abs_path + "/Simple-Assembler")
 
-from assemblerHelpers import validFloat
+from assemblerHelpers import validFloat, exponentCount
+from math import log2, floor
+
+def convertToIEEE(value: float) -> str:
+    """
+    Returns a 16 bit string of the floating point notation of the number
+    Assumes that value can be represented in the given format
+    """
+    exponent = floor(log2(value))
+    mantissa = ((value/(2 ** exponent)) - 1)
+    floatBase2 = []
+    for i in range(5):
+        floatBase2.append(str(int((mantissa * 2) // 1)))
+        mantissa = (mantissa * 2) - ((mantissa * 2) // 1)
+
+    rval = ("0" * 8) + "{0:03b}".format(exponent) + "".join(floatBase2)
+    return rval
+
 
 def getRegValue(address: str) -> int:
     """
@@ -34,6 +51,26 @@ def setRegValue(value: int, address: str) -> None:
     key = list(internalDict.keys())[0]
     internalDict[key] = value
     # print("setRegValue : ", rFlag)
+
+def setFracRegValue(value: float, address: str) -> bool:
+    """
+    Sets value of register to the register after converting it to binary, and then back to decimal
+    Sets value to 0 if there is precision error
+    Returns true for overflow, False for not overflow
+    """
+    internalDict = register[address]
+    key = list(internalDict.keys())[0]
+
+    if (validFloat(value)) and (1 <= value <=252):
+        base2 = convertToIEEE(value)
+        internalDict[key] = getDecimal(base2)
+        return True
+
+    internalDict[key] = 0
+    temp = getRegValue("111")
+    temp+=8
+    setRegValue(temp, "111")
+    return False
 
 def getDecimal(value:str) -> int:
     """
@@ -106,8 +143,7 @@ def memoryDump() -> None:
 
 
 def main():
-    (setRegValue(255, '111'))
-    print(getFracRegValue('111'))
+    print(convertToIEEE(1))
 
 if __name__ == "__main__":
     main()
