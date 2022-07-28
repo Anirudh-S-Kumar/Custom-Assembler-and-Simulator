@@ -10,8 +10,10 @@ pc = 0
 while True:
     try:
         temp = input()
-        memory[pc] = temp
-        pc+=1
+        temp.rstrip("\n")
+        if temp:
+            memory[pc] = temp
+            pc+=1
     except EOFError:
         break
 
