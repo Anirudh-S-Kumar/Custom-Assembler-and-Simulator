@@ -172,8 +172,6 @@ def subf(inst: str, pc:int) -> tuple:
         return pc+1, False
     return pc+1, True
     
-    setRegValue(reg3_value, inst[13:])
-    return pc+1, True
 
 def movf(inst: str, pc:int) -> tuple:
     reg1_value, ImmVal = typeB(inst)
