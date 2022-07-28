@@ -21,6 +21,7 @@ def typeB(inst: str) -> tuple:
 
     return (reg1_value, Imm)
 
+
 def typeC(inst: str) -> tuple:
     """Returns tuple of values to be used by all type C instructions
     For type C, will return the tuple (reg1, reg2)
@@ -39,11 +40,20 @@ def typeD(inst: str) -> tuple:
 
     return (reg1_value, mem_addr)
 
-def typeE(inst: str) -> tuple:
+def typeE(inst: str) -> int:
     """Returns tuple of values to be used by all type D instructions
-    For type E, will return the tuple (memory address)
+    For type E, will return the int memory address
     """
 
     mem_addr = getDecimal(inst[8:16])
 
-    return (mem_addr,)
+    return mem_addr
+
+def typeFloat(inst: str) -> tuple:
+    """
+    Returns tuple of values to be used by all float instructions
+     will return a tuple of register values
+    """
+    reg1_value = getFracRegValue(inst[7:10])
+    reg2_value = getFracRegValue(inst[10:13])
+    return reg1_value, reg2_value

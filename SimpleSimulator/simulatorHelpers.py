@@ -1,4 +1,26 @@
-from simulatorConstants import register, memory
+import sys, os
+from simulatorConstants import register, memory, rFlag
+
+abs_path = os.path.split(os.getcwd())[0] + "/CO_Project/" 
+sys.path.append(abs_path + "/Simple-Assembler")
+
+from assemblerHelpers import validFloat, exponentCount
+from math import log2, floor
+
+def convertToIEEE(value: float) -> str:
+    """
+    Returns a 16 bit string of the floating point notation of the number
+    Assumes that value can be represented in the given format
+    """
+    exponent = floor(log2(value))
+    mantissa = ((value/(2 ** exponent)) - 1)
+    floatBase2 = []
+    for i in range(5):
+        floatBase2.append(str(int((mantissa * 2) // 1)))
+        mantissa = (mantissa * 2) - ((mantissa * 2) // 1)
+
+    rval = ("0" * 8) + "{0:03b}".format(exponent) + "".join(floatBase2)
+    return rval
 
 
 def getRegValue(address: str) -> int:
@@ -8,6 +30,19 @@ def getRegValue(address: str) -> int:
     internalDict = register[address]
     return list(internalDict.values())[0]
 
+def getFracRegValue(address: str) -> float:
+    """
+    Takes the last 8 bits of the register value and converts them into float
+    """
+    internalDict = register[address]
+    valBase2 = base2Bit16(list(internalDict.values())[0])
+    valBase2 = valBase2[8:]
+
+    exponent = int(valBase2[:3], 2)
+    mantissa = 2**5 + int(valBase2[3:], 2)    
+    rval = mantissa * 2 ** (exponent - 5)
+    return rval
+
 def setRegValue(value: int, address: str) -> None:
     """
     Sets the given value at given address
@@ -15,18 +50,35 @@ def setRegValue(value: int, address: str) -> None:
     internalDict = register[address]
     key = list(internalDict.keys())[0]
     internalDict[key] = value
+    # print("setRegValue : ", rFlag)
+
+def setFracRegValue(value: float, address: str) -> bool:
+    """
+    Sets value of register to the register after converting it to binary, and then back to decimal
+    Sets value to 0 if there is precision error
+    Returns true for overflow, False for not overflow
+    """
+    internalDict = register[address]
+    key = list(internalDict.keys())[0]
+
+    if (validFloat(value)) and (1 <= value <=252):
+        base2 = convertToIEEE(value)
+        internalDict[key] = getDecimal(base2)
+        return True
+
+    internalDict[key] = 0
+    temp = getRegValue("111")
+    temp+=8
+    setRegValue(temp, "111")
+    return False
 
 def getDecimal(value:str) -> int:
     """
     Returns the base 10 value of the immediate value
     For now, the value is assumed to be in unsigned base 2 
     """
-    rval = 0
-    n = len(value)
-    for i in range(n):
-        rval+=int(value[i]) * (2 ** (n-i))
     
-    return rval
+    return int(value, base=2)
 
 def getVarValue(address: str) -> int:
     """
@@ -47,21 +99,24 @@ def resetFlags() -> None:
     setRegValue(0, "111")
 
 
-def overflowFlag(value: int) -> None:
-    """Raises overflow flag if value is more than 255, or less than 0"""
+def overflowFlag(value: int) -> bool:
+    """Returns true and Raises overflow flag if value is more than 255, or less than 0"""
     if not (-1 < value < 256):
         flag = getRegValue("111")
         flag+=8 # same as making the flag bit 1
         setRegValue(flag, "111")
+        return True
+    return False
 
-def comparisonFlag(reg1: int, reg2: int) -> None:
+def comparisonFlag(reg1: int, reg2: int) -> bool:
     """Raises the greater than, less than, or equal to flag depending on the inputs"""
     flag = getRegValue("111")
 
-    if reg2 > reg1:     flag+=2
-    elif reg2 < reg1:   flag+=4
+    if reg1 > reg2:     flag+=2
+    elif reg1 < reg2:   flag+=4
     else:               flag+=1
-
+    # print("called")
+    # print('comparison :', flag)
     setRegValue(flag, "111")            
 
 def base2Bit8(value: int) -> str:
@@ -84,8 +139,11 @@ def memoryDump() -> None:
     for i in memory:
         print(i)
 
+
+
+
 def main():
-    print(base2Bit16(1))
+    print(convertToIEEE(1))
 
 if __name__ == "__main__":
     main()
