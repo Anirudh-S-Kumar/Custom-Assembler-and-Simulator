@@ -12,7 +12,8 @@ def add(inst: str, pc: int) -> tuple:
     reg3_value = reg2_value + reg1_value
     
     if overflowFlag(reg3_value):
-        setRegValue(0, inst[13:])
+        reg3_value = reg3_value % (2**16)
+        setRegValue(reg3_value, inst[13:])
         return pc+1, False
 
 

@@ -1,5 +1,10 @@
+import sys, os
 from simulatorConstants import register, memory, rFlag
 
+abs_path = os.path.split(os.getcwd())[0] + "/CO_Project/" 
+sys.path.append(abs_path + "/Simple-Assembler")
+
+from assemblerHelpers import validFloat
 
 def getRegValue(address: str) -> int:
     """
@@ -7,6 +12,19 @@ def getRegValue(address: str) -> int:
     """
     internalDict = register[address]
     return list(internalDict.values())[0]
+
+def getFracRegValue(address: str) -> float:
+    """
+    Takes the last 8 bits of the register value and converts them into float
+    """
+    internalDict = register[address]
+    valBase2 = base2Bit16(list(internalDict.values())[0])
+    valBase2 = valBase2[8:]
+
+    exponent = int(valBase2[:3], 2)
+    mantissa = 2**5 + int(valBase2[3:], 2)    
+    rval = mantissa * 2 ** (exponent - 5)
+    return rval
 
 def setRegValue(value: int, address: str) -> None:
     """
@@ -84,9 +102,12 @@ def memoryDump() -> None:
     for i in memory:
         print(i)
 
+
+
+
 def main():
-    (setRegValue(1, '111'))
-    print(getRegValue('111'))
+    (setRegValue(255, '111'))
+    print(getFracRegValue('111'))
 
 if __name__ == "__main__":
     main()
