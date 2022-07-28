@@ -22,6 +22,15 @@ def convertToIEEE(value: float) -> str:
     rval = ("0" * 8) + "{0:03b}".format(exponent) + "".join(floatBase2)
     return rval
 
+def convertFromIEEE(value: str) -> float:
+    """
+    Return floating point value of string
+    """
+    exponent = int(value[:3], 2)
+    mantissa = 2**5 + int(value[3:], 2)    
+    rval = mantissa * 2 ** (exponent - 5)
+    return rval
+
 
 def getRegValue(address: str) -> int:
     """
@@ -38,10 +47,7 @@ def getFracRegValue(address: str) -> float:
     valBase2 = base2Bit16(list(internalDict.values())[0])
     valBase2 = valBase2[8:]
 
-    exponent = int(valBase2[:3], 2)
-    mantissa = 2**5 + int(valBase2[3:], 2)    
-    rval = mantissa * 2 ** (exponent - 5)
-    return rval
+    return convertFromIEEE(valBase2)
 
 def setRegValue(value: int, address: str) -> None:
     """

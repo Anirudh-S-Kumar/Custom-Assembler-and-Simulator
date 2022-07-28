@@ -39,7 +39,7 @@ def mov(inst: str, pc:int) -> tuple:
 
 def movr(inst: str, pc:int) -> tuple:
     reg1_value, reg2_value = typeC(inst)
-    setRegValue(reg2_value, inst[10:13])
+    setRegValue(reg1_value, inst[13:])
     return pc+1, True
 
 def ld(inst: str, pc:int) -> tuple:
@@ -174,7 +174,7 @@ def subf(inst: str, pc:int) -> tuple:
     
 
 def movf(inst: str, pc:int) -> tuple:
-    reg1_value, ImmVal = typeB(inst)
+    ImmVal = convertFromIEEE(inst[8:])
     setRegValue(ImmVal, inst[5:8])
     return pc+1, False
 
