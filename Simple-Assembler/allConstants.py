@@ -7,7 +7,7 @@ import string
 import os
 
 # Absolute path of the current working directory
-abs_path = os.path.split(os.getcwd())[0] + "/CO_Project/" 
+abs_path = os.path.split(os.getcwd())[0]
 
 validChars = set(string.ascii_letters + string.digits + "_")
 # Defining the dictionaries

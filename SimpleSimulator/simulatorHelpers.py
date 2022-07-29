@@ -1,7 +1,7 @@
 import sys, os
 from simulatorConstants import register, memory, rFlag
 
-abs_path = os.path.split(os.getcwd())[0] + "/CO_Project/" 
+abs_path = os.path.split(os.getcwd())[0] 
 sys.path.append(abs_path + "/Simple-Assembler")
 
 from assemblerHelpers import validFloat, exponentCount

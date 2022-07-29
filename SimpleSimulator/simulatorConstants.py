@@ -1,6 +1,6 @@
 import sys, os
 
-abs_path = os.path.split(os.getcwd())[0] + "/CO_Project/" 
+abs_path = os.path.split(os.getcwd())[0]
 sys.path.append(abs_path + "/Simple-Assembler")
 
 from allConstants import register_addr, opcodes
