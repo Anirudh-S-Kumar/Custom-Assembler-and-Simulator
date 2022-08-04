@@ -32,11 +32,13 @@ def main():
         dumpRegs()
     
     memoryDump()
+    '''
     plot.scatter(x=globalTime, y=memoryAddLocation)
     plot.title("Memory location access scatter plot")
     plot.xlabel('Time')
     plot.ylabel('Memory Location')
     plot.show()
+    '''
 
 
 main()
