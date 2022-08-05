@@ -1,15 +1,29 @@
 from math import log2, ceil
 
 
+space_mapping = {
+    'k': 3,
+    'm': 6,
+    'g': 9,
+    't': 12
+}
+
+
 print("-----------INITIAL INPUTS-----------")
 
 # space is in bits
-space = input("Enter space in memory : ")
-space = space.split()
-if space[1] == 'Mb':
-    space = int(space[0]) * (2 ** 6) * 1
-else:
-    space = int(space[0]) * (2 ** 6) * 2 ** 4
+input_space = input("Enter space in memory : ")
+input_space = input_space.split()
+space = int(input_space[0])
+
+multiplier = (input_space[1][0]).lower()
+b_or_B = input_space[1][1]
+
+if multiplier != 'b':
+    space = space * (2 ** space_mapping[multiplier])
+
+if b_or_B == 'B':
+    space = space * 2 ** 3
 
 
 def get_word_size(CPU: int = 0) -> int:
@@ -36,12 +50,14 @@ def get_word_size(CPU: int = 0) -> int:
 
     return word_size
 
-# Question 1 Complete
+
+word_size = get_word_size()
 
 
+# Question 1
 def ques1() -> None:
     global space
-    word_size = get_word_size()
+    global word_size
 
     print("\n-----------QUESTION 1-----------\n")
     inst_length = int(input("Enter your Instruction Length: "))
@@ -72,6 +88,7 @@ while cont == 'y':
 
 def ques2() -> None:
     global space
+    global word_size
 
     print("\n-----------QUESTION 2-----------\n")
 
@@ -81,15 +98,25 @@ def ques2() -> None:
     bitCPU = int(input("Enter the number bits in CPU: "))
     bitCPU = bitCPU.split()
 
-    if query == 2:
+    if query == 1:
+        new_word_size = get_word_size(CPU=bitCPU)
+
+        old_address_bits = ceil(log2(space / word_size))
+        new_address_bits = ceil(log2(space / new_word_size))
+        delta = old_address_bits - new_address_bits
+
+        if (delta >= 0):
+            print("+", end='')
+        print(delta)
+    else:
         # Number of address pins
         address_pins = int(input("Enter the number of address pins: "))
 
         # word size
-        word_size = get_word_size(CPU=bitCPU)
+        new_word_size = get_word_size(CPU=bitCPU)
 
         # memory size in bits
-        memory_size = word_size * (2 ** (address_pins))
+        memory_size = new_word_size * (2 ** (address_pins))
 
         memory_size = memory_size/8  # conversion to bytes
         memory_size = memory_size/1024  # conversion to KB
