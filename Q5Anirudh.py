@@ -29,10 +29,9 @@ elif (address_type == 3):
 else:
     word_size = 8
 
-print("-----------QUESTION 1-----------")
-
 
 def ques1() -> None:
+    print("\n-----------QUESTION 1-----------\n")
     inst_length = int(input("Enter your Instruction Length: "))
     reg_length = int(input("Enter Register Length: "))
 
@@ -45,5 +44,16 @@ def ques1() -> None:
     # r is filler bits
     r = inst_length - (q + 2*reg_length)
 
+    print(f"""
+	Minimum bits needed for representing an address:    	{address_bits}
+	Number of bits need by opcode:                  		{q}
+	Number of filler bits in Instruction type 2:    		{r}
+	Maximum number of instructions this ISA can support: 	{2 ** q}
+	Maximum number of registers this ISA can support: 		{2 ** reg_length}
+	""")
 
-ques1()
+
+cont = 'y'
+while cont == 'y':
+    ques1()
+    cont = input("Do you want to repeat Q1 again? [y/n] : ").strip()
