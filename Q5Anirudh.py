@@ -2,10 +2,10 @@ from math import log2, ceil
 
 
 space_mapping = {
-    'k': 3,
-    'm': 6,
-    'g': 9,
-    't': 12
+    'k': 10,
+    'm': 20,
+    'g': 30,
+    't': 40
 }
 
 
@@ -23,7 +23,7 @@ if multiplier != 'b':
     space = space * (2 ** space_mapping[multiplier])
 
 if b_or_B == 'B':
-    space = space * 2 ** 3
+    space = space * (2 ** 3)
 
 
 def get_word_size(CPU: int = 0) -> int:
@@ -43,7 +43,7 @@ def get_word_size(CPU: int = 0) -> int:
         word_size = 1
     elif (address_type == 2):
         word_size = 4
-    elif (address_type == 8 and CPU != 0):
+    elif (address_type == 4 and CPU != 0):
         word_size = CPU
     else:
         word_size = 8
@@ -71,7 +71,7 @@ def ques1() -> None:
     # r is filler bits
     r = inst_length - (q + 2*reg_length)
 
-    print("-----------ANSWER 1-----------")
+    print()
     print(f"Minimum bits needed for representing an address: {address_bits}")
     print(f"Number of bits need by opcode: {q}")
     print(f"Number of filler bits in Instruction type 2: {r}")
@@ -80,7 +80,9 @@ def ques1() -> None:
         f"Maximum number of registers this ISA can support: {2 ** reg_length}")
 
 
-cont = 'y'
+print("\n-----------QUERIES-----------")
+print()
+cont = (input("Do you want to do Q1? [y/n] : ").strip()).lower()
 while cont == 'y':
     ques1()
     cont = (input("Do you want to repeat Q1 again? [y/n] : ").strip()).lower()
@@ -92,18 +94,20 @@ def ques2() -> None:
 
     print("\n-----------QUESTION 2-----------\n")
 
+    print("1. Changing addressable memory")
+    print("2. Memory size")
+
     query = int(input("Enter type of query[1/2] : ").strip())
 
     # Number of bits in CPU
     bitCPU = int(input("Enter the number bits in CPU: "))
-    bitCPU = bitCPU.split()
 
     if query == 1:
         new_word_size = get_word_size(CPU=bitCPU)
 
         old_address_bits = ceil(log2(space / word_size))
         new_address_bits = ceil(log2(space / new_word_size))
-        delta = old_address_bits - new_address_bits
+        delta = new_address_bits - old_address_bits
 
         if (delta >= 0):
             print("+", end='')
@@ -124,3 +128,10 @@ def ques2() -> None:
         memory_size = memory_size/1024  # conversion to GB
 
         print(f"{memory_size} GB")
+
+
+print()
+cont = (input("Do you want to do Q2? [y/n] : ").strip()).lower()
+while cont == 'y':
+    ques2()
+    cont = (input("Do you want to repeat Q2 again? [y/n] : ").strip()).lower()
