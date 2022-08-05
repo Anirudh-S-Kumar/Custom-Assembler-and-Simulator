@@ -13,9 +13,10 @@ while True:
         temp.rstrip("\n")
         if temp:
             memory[pc] = temp
-            pc+=1
+            pc += 1
     except EOFError:
         break
+
 
 def main():
     halted = False
@@ -24,13 +25,13 @@ def main():
     while not halted:
         globalTime.append(time)
         memoryAddLocation.append(pc)
-        time+=1
+        time += 1
         inst = memory[pc]
         pcBase2 = base2Bit8(pc)
-        print(pcBase2, end = " ")
+        print(pcBase2, end=" ")
         halted, pc = executionEngine(inst, pc)
         dumpRegs()
-    
+
     memoryDump()
     '''
     plot.scatter(x=globalTime, y=memoryAddLocation)
@@ -42,5 +43,3 @@ def main():
 
 
 main()
-
-
