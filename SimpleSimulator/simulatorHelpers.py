@@ -26,11 +26,12 @@ def convertToIEEE(value: float) -> str:
 
 def convertFromIEEE(value: str) -> float:
     """
-    Return floating point value of string
+    Return floating point value of string in 16 bits
     """
     exponent = int(value[:3], 2)
     mantissa = 2**5 + int(value[3:], 2)
     rval = mantissa * 2 ** (exponent - 5)
+    rval = rval
     return rval
 
 

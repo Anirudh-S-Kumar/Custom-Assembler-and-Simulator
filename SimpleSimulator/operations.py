@@ -192,8 +192,10 @@ def subf(inst: str, pc: int) -> tuple:
 
 
 def movf(inst: str, pc: int) -> tuple:
-    ImmVal = convertFromIEEE(inst[8:])
-    setRegValue(ImmVal, inst[5:8])
+    ImmVal = convertFromIEEE(inst[8:]) # Convert the IEEE value to a float value
+    ImmVal = convertToIEEE(ImmVal)     # convert that float back into standard binary 
+    ImmVal = getDecimal(ImmVal)        # convert that binary to decimal 
+    setRegValue(ImmVal, inst[5:8])     # and store in register
     return pc+1, False
 
 
