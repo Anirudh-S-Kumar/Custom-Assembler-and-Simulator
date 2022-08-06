@@ -78,7 +78,10 @@ def setFracRegValue(value: float, address: str) -> bool:
         internalDict[key] = getDecimal(base2)
         return True
 
-    internalDict[key] = 0
+    if value > 252 and validFloat(value):
+        internalDict[key] = 2**8 - 1
+    else:
+        internalDict[key] = 0
     setRegValue(8, "111")
     return False
 
