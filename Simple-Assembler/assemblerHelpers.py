@@ -12,7 +12,7 @@ def exponentCount(num: float) -> int:
 
 
 def validFloat(num: float) -> bool:
-    if not validRange(float):
+    if not validRange(num):
         return False
 
     val = num / 2**floor(log2((num)))
