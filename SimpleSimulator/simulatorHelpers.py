@@ -116,7 +116,7 @@ def resetFlags() -> None:
 
 def overflowFlag(value: int) -> bool:
     """Returns true and Raises overflow flag if value is more than 255, or less than 0"""
-    if not (-1 < value < 2*16 - 1):
+    if not (-1 < value < 2**16 - 1):
         flag = getRegValue("111")
         flag += 8  # same as making the flag bit 1
         setRegValue(flag, "111")
