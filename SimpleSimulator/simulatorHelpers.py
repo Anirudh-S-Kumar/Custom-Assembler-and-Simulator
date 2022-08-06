@@ -1,8 +1,8 @@
-from math import log2, floor
 from assemblerHelpers import validFloat, exponentCount
+from simulatorConstants import register, memory, rFlag
+from math import log2, floor
 import sys
 import os
-from simulatorConstants import register, memory, rFlag
 
 abs_path = os.path.split(os.getcwd())[0]
 sys.path.append(abs_path + "/Simple-Assembler")
@@ -14,7 +14,7 @@ def convertToIEEE(value: float) -> str:
     Assumes that value can be represented in the given format
     """
     exponent = floor(log2(value))
-    mantissa = ((value/(2 ** exponent)) - 1)
+    mantissa = ((value / (2 ** exponent)) - 1)
     floatBase2 = []
     for i in range(5):
         floatBase2.append(str(int((mantissa * 2) // 1)))
@@ -79,16 +79,14 @@ def setFracRegValue(value: float, address: str) -> bool:
         return True
 
     internalDict[key] = 0
-    temp = getRegValue("111")
-    temp += 8
-    setRegValue(temp, "111")
+    setRegValue(8, "111")
     return False
 
 
 def getDecimal(value: str) -> int:
     """
     Returns the base 10 value of the immediate value
-    For now, the value is assumed to be in unsigned base 2 
+    For now, the value is assumed to be in unsigned base 2
     """
 
     return int(value, base=2)
@@ -165,7 +163,7 @@ def memoryDump() -> None:
 
 
 def main():
-    print(convertToIEEE(1))
+    print(setFracRegValue(4.0625, "000"))
 
 
 if __name__ == "__main__":
