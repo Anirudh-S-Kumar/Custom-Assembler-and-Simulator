@@ -12,6 +12,9 @@ def exponentCount(num: float) -> int:
 
 
 def validFloat(num: float) -> bool:
+    if not validRange(float):
+        return False
+
     val = num / 2**floor(log2((num)))
     exponent = exponentCount(val)
     val = getFractional(val)*(10**exponent)

@@ -185,16 +185,18 @@ def addf(inst: str, pc: int) -> tuple:
 
 def subf(inst: str, pc: int) -> tuple:
     reg1_value, reg2_value = typeFloat(inst)
-    reg3_value = reg2_value + reg1_value
+    reg3_value = reg1_value - reg2_value
     if (setFracRegValue(reg3_value, inst[13:])):
         return pc+1, True
     return pc+1, False
 
 
 def movf(inst: str, pc: int) -> tuple:
-    ImmVal = convertFromIEEE(inst[8:]) # Convert the IEEE value to a float value
-    ImmVal = convertToIEEE(ImmVal)     # convert that float back into standard binary 
-    ImmVal = getDecimal(ImmVal)        # convert that binary to decimal 
+    # Convert the IEEE value to a float value
+    ImmVal = convertFromIEEE(inst[8:])
+    # convert that float back into standard binary
+    ImmVal = convertToIEEE(ImmVal)
+    ImmVal = getDecimal(ImmVal)        # convert that binary to decimal
     setRegValue(ImmVal, inst[5:8])     # and store in register
     return pc+1, False
 
