@@ -9,6 +9,7 @@ space_mapping = {
     't': 40
 }
 
+# Assuming word size to be the same as the one the program is being run on
 words = {
     'b': 1,
     'Nib': 4,
@@ -27,6 +28,12 @@ space = int(input_space[0])
 no_multiplier = False
 multiplier = (input_space[1][0]).lower()
 rest = input_space[1][1:]
+
+
+if rest == 'Word':
+    bitCPU = int(input("Enter the number bits in CPU: "))
+    words['Word'] = bitCPU
+
 
 if multiplier in space_mapping:
     space = space * (2 ** space_mapping[multiplier])
@@ -67,7 +74,7 @@ def get_word_size(CPU: int = 0) -> int:
     return word_size
 
 
-word_size = get_word_size()
+word_size = get_word_size(bitCPU)
 
 
 # Question 1
@@ -120,7 +127,6 @@ def ques2() -> None:
 
     if query == 1:
         new_word_size = get_word_size(CPU=bitCPU)
-
         old_address_bits = ceil(log2(space / word_size))
         new_address_bits = ceil(log2(space / new_word_size))
         delta = new_address_bits - old_address_bits
@@ -139,11 +145,22 @@ def ques2() -> None:
         memory_size = new_word_size * (2 ** (address_pins))
 
         memory_size = memory_size/8  # conversion to bytes
-        memory_size = memory_size/1024  # conversion to KB
-        memory_size = memory_size/1024  # conversion to MB
-        memory_size = memory_size/1024  # conversion to GB
-
-        print(f"{memory_size} GB")
+        i = 0
+        while(memory_size / (2 ** (10 * i)) > 1):
+            i += 1
+        i -= 1
+        print(i)
+        memory_size = memory_size / 2 ** (10 * i)
+        if i == 0:
+            print(f"{memory_size} B")
+        elif i == 1:
+            print(f"{memory_size} KB")
+        elif i == 2:
+            print(f"{memory_size} MB")
+        elif i == 3:
+            print(f"{memory_size} GB")
+        else:
+            print(f"{memory_size} TB")
 
 
 print()
