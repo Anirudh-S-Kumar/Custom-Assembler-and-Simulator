@@ -1,3 +1,4 @@
+from assemblerHelpers import validFloat, exponentCount
 from simulatorConstants import register, memory, rFlag
 from math import log2, floor
 import sys
@@ -6,7 +7,6 @@ import os
 abs_path = os.path.split(os.getcwd())[0]
 sys.path.append(abs_path + "/Simple-Assembler")
 
-from assemblerHelpers import validFloat, exponentCount
 
 def convertToIEEE(value: float) -> str:
     """
@@ -119,23 +119,21 @@ def resetFlags() -> None:
 def overflowFlag(value: int) -> bool:
     """Returns true and Raises overflow flag if value is more than 255, or less than 0"""
     if not (-1 < value < 2**16 - 1):
-        flag = getRegValue("111")
-        flag += 8  # same as making the flag bit 1
-        setRegValue(flag, "111")
+        setRegValue(8, "111")
         return True
     return False
 
 
 def comparisonFlag(reg1: int, reg2: int) -> bool:
     """Raises the greater than, less than, or equal to flag depending on the inputs"""
-    flag = getRegValue("111")
+    flag = 0
 
     if reg1 > reg2:
-        flag += 2
+        flag = 2
     elif reg1 < reg2:
-        flag += 4
+        flag = 4
     else:
-        flag += 1
+        flag = 1
     # print("called")
     # print('comparison :', flag)
     setRegValue(flag, "111")
