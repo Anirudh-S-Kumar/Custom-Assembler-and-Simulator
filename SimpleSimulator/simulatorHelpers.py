@@ -156,7 +156,8 @@ def dumpRegs():
     output_list = []
     for i in (register):
         temp = getRegValue(i)
-        output_list.append(base2Bit16(temp))
+        temp = base2Bit16(temp)
+        output_list.append((temp))
     print(" ".join(output_list))
 
 
