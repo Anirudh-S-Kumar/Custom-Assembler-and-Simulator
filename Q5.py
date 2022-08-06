@@ -1,4 +1,5 @@
 from math import log2, ceil
+import platform
 
 
 space_mapping = {
@@ -8,6 +9,12 @@ space_mapping = {
     't': 40
 }
 
+words = {
+    'b': 1,
+    'Nib': 4,
+    'B': 8,
+    'Word': platform.architecture()[0][0:2]
+}
 
 print("-----------INITIAL INPUTS-----------")
 
@@ -16,14 +23,23 @@ input_space = input("Enter space in memory : ")
 input_space = input_space.split()
 space = int(input_space[0])
 
+# no multiplier is set to true if there is no multiplier in front of word size
+no_multiplier = False
 multiplier = (input_space[1][0]).lower()
-b_or_B = input_space[1][1]
+rest = input_space[1][1:]
 
-if multiplier != 'b':
+if multiplier in space_mapping:
     space = space * (2 ** space_mapping[multiplier])
+else:
+    no_multiplier = True
 
-if b_or_B == 'B':
-    space = space * (2 ** 3)
+
+# changing value of rest incase there is no multiplier
+if no_multiplier:
+    rest = input_space[1]
+
+if rest in words:
+    space = space * words[rest]
 
 
 def get_word_size(CPU: int = 0) -> int:
