@@ -151,11 +151,10 @@ def dumpRegs():
     """
     Prints the values of all the registers in base 2
     """
-    for i in register:
+    for j, i in enumerate(register):
         temp = getRegValue(i)
-        temp = base2Bit16(temp)
-        print(temp, end=" ")
-    print()
+        register[j] = base2Bit16(temp)
+    print(" ".join(register))
 
 
 def memoryDump() -> None:
