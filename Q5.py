@@ -29,6 +29,7 @@ no_multiplier = False
 multiplier = (input_space[1][0]).lower()
 rest = input_space[1][1:]
 
+bitCPU = 0
 
 if rest == 'Word':
     bitCPU = int(input("Enter the number bits in CPU: "))
