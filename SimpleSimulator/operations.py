@@ -49,7 +49,6 @@ def movr(inst: str, pc: int) -> tuple:
 def ld(inst: str, pc: int) -> tuple:
     reg1_value, mem_addr = typeD(inst)
     ldValue = getDecimal(memory[mem_addr])
-    print(ldValue)
     setRegValue(ldValue, inst[5:8])
 
     globalTime.append(globalTime[-1])
