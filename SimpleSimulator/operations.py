@@ -49,6 +49,7 @@ def movr(inst: str, pc: int) -> tuple:
 def ld(inst: str, pc: int) -> tuple:
     reg1_value, mem_addr = typeD(inst)
     ldValue = getDecimal(memory[mem_addr])
+    print(ldValue)
     setRegValue(ldValue, inst[5:8])
 
     globalTime.append(globalTime[-1])
@@ -72,7 +73,8 @@ def mul(inst: str, pc: int) -> tuple:
     reg3_value = reg2_value * reg1_value
 
     if overflowFlag(reg3_value):
-        setRegValue(0, inst[13:])
+        reg3_value = reg3_value % (2**16)
+        setRegValue(reg3_value, inst[13:])
         return pc+1, False
 
     setRegValue(reg3_value, inst[13:])
@@ -229,7 +231,7 @@ mapping = {
 
 
 def main():
-    # add("1011000011001010")
+    add("1011000011001010")
     pass
 
 
