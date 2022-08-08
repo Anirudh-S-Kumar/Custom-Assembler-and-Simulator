@@ -2,6 +2,12 @@ from simulatorConstants import *
 from simulatorHelpers import dumpRegs, base2Bit8, memoryDump
 from execEngine import executionEngine
 import matplotlib.pyplot as plot
+import cProfile
+import pstats
+import sys
+
+profiler = cProfile.Profile()
+
 
 # initializing program counter
 pc = 0
@@ -19,6 +25,7 @@ while True:
 
 
 def main():
+    final_output = []
     halted = False
     pc = 0
     time = 0
@@ -28,11 +35,18 @@ def main():
         time += 1
         inst = memory[pc]
         pcBase2 = base2Bit8(pc)
-        print(pcBase2, end=" ")
         halted, pc = executionEngine(inst, pc)
         dumpRegs()
+        temp_final = (" ".join([pcBase2, dumpRegs()]))
+        final_output.append(temp_final)
 
-    memoryDump()
+        if len(final_output) > 60:
+            sys.stdout.write("\n".join(final_output) + "\n")
+            final_output.clear()
+
+    final_output.append(memoryDump())
+    sys.stdout.write("\n".join(final_output) + "\n")
+
     '''
     plot.scatter(x=globalTime, y=memoryAddLocation)
     plot.title("Memory location access scatter plot")

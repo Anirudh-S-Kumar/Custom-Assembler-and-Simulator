@@ -1,3 +1,4 @@
+from assemblerHelpers import validFloat, exponentCount
 from simulatorConstants import register, memory, rFlag
 from math import log2, floor
 import sys
@@ -6,7 +7,6 @@ import os
 abs_path = os.path.split(os.getcwd())[0]
 sys.path.append(abs_path + "/Simple-Assembler")
 
-from assemblerHelpers import validFloat, exponentCount
 
 def convertToIEEE(value: float) -> str:
     """
@@ -147,7 +147,7 @@ def base2Bit16(value: int) -> str:
     return "{0:016b}".format(value)
 
 
-def dumpRegs():
+def dumpRegs() -> str:
     """
     Prints the values of all the registers in base 2
     """
@@ -156,12 +156,11 @@ def dumpRegs():
         temp = getRegValue(i)
         temp = base2Bit16(temp)
         output_list.append(str(temp))
-    print(" ".join(output_list))
+    return (" ".join(output_list))
 
 
 def memoryDump() -> None:
-    for i in memory:
-        print(i)
+    return "\n".join(memory)
 
 
 def main():
