@@ -1,4 +1,3 @@
-from assemblerHelpers import validFloat, exponentCount
 from simulatorConstants import register, memory, rFlag
 from math import log2, floor
 import sys
@@ -6,6 +5,8 @@ import os
 
 abs_path = os.path.split(os.getcwd())[0]
 sys.path.append(abs_path + "/Simple-Assembler")
+
+from assemblerHelpers import validFloat, exponentCount
 
 
 def convertToIEEE(value: float) -> str:

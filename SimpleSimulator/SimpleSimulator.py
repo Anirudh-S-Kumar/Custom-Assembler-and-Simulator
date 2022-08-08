@@ -53,7 +53,7 @@ def main():
     plot.title("Memory location access scatter plot")
     plot.xlabel('Time')
     plot.ylabel('Memory Location')
-    plot.write_image(f"images/{file_name}.png")
+    plot.savefig(f"images/{file_name}.png")
 
 
 main()
