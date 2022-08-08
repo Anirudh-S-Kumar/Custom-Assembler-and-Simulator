@@ -1,3 +1,4 @@
+from datetime import datetime
 from simulatorConstants import *
 from simulatorHelpers import dumpRegs, base2Bit8, memoryDump
 from execEngine import executionEngine
@@ -47,13 +48,12 @@ def main():
     final_output.append(memoryDump())
     sys.stdout.write("\n".join(final_output) + "\n")
 
-    '''
+    file_name = str(datetime.now())
     plot.scatter(x=globalTime, y=memoryAddLocation)
     plot.title("Memory location access scatter plot")
     plot.xlabel('Time')
     plot.ylabel('Memory Location')
-    plot.show()
-    '''
+    plot.write_image(f"images/{file_name}.png")
 
 
 main()
