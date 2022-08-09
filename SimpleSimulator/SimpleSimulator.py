@@ -6,9 +6,10 @@ import matplotlib.pyplot as plot
 import cProfile
 import pstats
 import sys
+import os
 
 profiler = cProfile.Profile()
-
+abs_path = os.path.split(os.getcwd())[0] + "/SimpleSimulator/"
 
 # initializing program counter
 pc = 0
@@ -48,12 +49,14 @@ def main():
     final_output.append(memoryDump())
     sys.stdout.write("\n".join(final_output) + "\n")
 
-    file_name = str(datetime.now())
+    file_name = str(datetime.now().timestamp())
+    file_name = "".join(file_name.split("."))
+    
     plot.scatter(x=globalTime, y=memoryAddLocation)
     plot.title("Memory location access scatter plot")
     plot.xlabel('Time')
     plot.ylabel('Memory Location')
-    plot.savefig(f"images/{file_name}.png")
+    plot.savefig(f"{abs_path}images/{file_name}.png")
 
 
 main()
